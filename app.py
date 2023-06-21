@@ -69,7 +69,7 @@ fig = bubble.update_axes_labels(fig)
 fig = bubble.update_template(fig)
 fig = bubble.update_legend(fig)
 
-fig.update_layout(height=600, width=1000)
+#fig.update_layout(height=600, width=1000)
 fig.update_layout(dragmode=False)
 
 app = dash.Dash(external_stylesheets=[dbc.themes.JOURNAL])
@@ -176,7 +176,13 @@ def render_page_content(pathname):
                         'min-width' : '55vw',
                         'padding':'10vh'},
                     children=[
-                        html.Span("Insert figure here")])),
+                        dcc.Graph(className='graph', figure=fig, style={'width': '40vw', }, config=dict(
+                    scrollZoom=False,
+                    showTips=False,
+                    showAxisDragHandles=False,
+                    doubleClick=False,
+                    displayModeBar=False
+                    ))])),
                 dbc.Col(html.Div(
                     className='feed-div2',
                     style={
