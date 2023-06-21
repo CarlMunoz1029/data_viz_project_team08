@@ -43,14 +43,15 @@ import json
 import preprocess
 import bubble
 
+from pandas.io.json import json_normalize
+
 app = dash.Dash(__name__)
 app.title = 'TP4 | INF8808'
-
-with open('/Users/antoineduplantie-grenier/Documents/École/Été2023/INF8808E/TP4/code-4/src/assets/data/countriesData.json') as data_file:
+with open('/Users/cmuno/Documents/Dataviz/code_tp4/code/src/assets/data/countriesData.json') as data_file:
     data = json.load(data_file)
 
-df_2000 = pd.json_normalize(data, '2000')
-df_2015 = pd.json_normalize(data, '2015')
+df_2000 = json_normalize(data, '2000')
+df_2015 = json_normalize(data, '2015')
 
 df_2000 = preprocess.round_decimals(df_2000)
 df_2015 = preprocess.round_decimals(df_2015)
@@ -148,7 +149,63 @@ def render_page_content(pathname):
     ]
 )
     elif pathname == "/page-1":
-        return html.P("This is the content of page 1. Yay!")
+        
+        theme = html.Div(children=[
+        html.Div(html.Button("Filter (does nothing atm)"), style={'padding':'50px'}),
+        html.Div(children=[
+            html.Div(
+            children=[
+                    html.Span("Thématique :"), 
+                    html.Span("testing1")], 
+                style={"border":"1px solid green","maxHeight": "115px", "background-color":"coral"}),
+            html.Div(
+            children=[
+                    html.Span("Thématique :"), html.Br(),
+                    html.Span("testing2")],  
+                style={"border":"1px solid green", "maxHeight": "115px","background-color":"darkseagreen"})],
+            style={"maxHeight": "1015px", "overflow-y":"scroll"})])
+        
+        layout = dbc.Row([dbc.Col(
+                html.Div(
+                    className='view-div',
+                    style={
+                        'justifyContent': 'center',
+                        'alignItems': 'center',
+                        'text-align':'center',
+                        'display': 'inline-block',
+                        'min-width' : '55vw',
+                        'padding':'10vh'},
+                    children=[
+                        html.Span("Insert figure here")])),
+                dbc.Col(html.Div(
+                    className='feed-div2',
+                    style={
+                        'justifyContent': 'center',
+                        'alignItems': 'center',
+                        'display': 'inline-block'},
+                    children=[
+                        html.Div(id='feed2', style={
+                            #'visibility': 'hidden',
+                            'border': '1px solid black',
+                            'padding': '10px',
+                            'min-width' : '20vw',
+                            'min-height' : '75vh'},
+                                children=[
+                                    html.Div(id='marker-title2', style={
+                                        'fontSize': '24px'}),
+                                    html.Div(id='mode2', style={
+                                        'fontSize': '16px'}),
+                                    html.Div(id='theme2', children=[theme], style={
+                                        'fontSize': '16px'})])]))])
+        #return html.Div(className='content', children=[
+        #    html.Header(children=[
+        #        html.H1('Who\'s Speaking?'),
+        #        html.H2('An analysis of Shakespeare\'s Romeo and Juliet')
+        #    ])
+        #])
+
+        return layout
+        #return html.P("This is the content of page 1. Yay!")
     elif pathname == "/page-2":
         return html.P("Oh cool, this is page 2!")
     # If the user tries to reach a different page, return a 404 message
