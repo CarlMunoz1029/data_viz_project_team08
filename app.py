@@ -17,24 +17,17 @@ from dash import dcc
 from dash.dependencies import Input, Output, State
 import dash_bootstrap_components as dbc
 
+from preprocess import preprocess_general_timeline
+from general_timeline import get_general_timeline
+
+
 
 import pandas as pd
 
 
     
     
-"""
-This app creates a simple sidebar layout using inline style arguments and the
-dbc.Nav component.
 
-dcc.Location is used to track the current location, and a callback uses the
-current location to render the appropriate page content. The active prop of
-each NavLink is set automatically according to the current pathname. To use
-this feature you must install dash-bootstrap-components >= 0.11.0.
-
-For more details on building multi-page Dash applications, check out the Dash
-documentation: https://dash.plot.ly/urls
-"""
 import dash
 import dash_bootstrap_components as dbc
 from dash import Input, Output, dcc, html
@@ -45,32 +38,16 @@ import bubble
 
 from pandas.io.json import json_normalize
 
-app = dash.Dash(__name__)
-app.title = 'TP4 | INF8808'
-with open('/Users/cmuno/Documents/Dataviz/code_tp4/code/src/assets/data/countriesData.json') as data_file:
-    data = json.load(data_file)
+font ="Times New Roman"
 
-df_2000 = json_normalize(data, '2000')
-df_2015 = json_normalize(data, '2015')
 
-df_2000 = preprocess.round_decimals(df_2000)
-df_2015 = preprocess.round_decimals(df_2015)
+##this part is for the general timeline
+df_tl = pd.read_csv('assets/timeline_dataset.csv', index_col=0)
+df_tl = preprocess_general_timeline(df_tl)
+fig_timeline = get_general_timeline(df_tl)
 
-gdp_range = preprocess.get_range('GDP', df_2000, df_2015)
-co2_range = preprocess.get_range('CO2', df_2000, df_2015)
 
-df = preprocess.combine_dfs(df_2000, df_2015)
-df = preprocess.sort_dy_by_yr_continent(df)
 
-fig = bubble.get_plot(df, gdp_range, co2_range)
-fig = bubble.update_animation_hover_template(fig)
-fig = bubble.update_animation_menu(fig)
-fig = bubble.update_axes_labels(fig)
-fig = bubble.update_template(fig)
-fig = bubble.update_legend(fig)
-
-#fig.update_layout(height=600, width=1000)
-fig.update_layout(dragmode=False)
 
 app = dash.Dash(external_stylesheets=[dbc.themes.JOURNAL])
 app.title = "project session INF8808"
@@ -121,10 +98,10 @@ app.layout = html.Div([dcc.Location(id="url"), sidebar, content])
 
 @app.callback(Output("page-content", "children"), [Input("url", "pathname")])
 def render_page_content(pathname):
-    if pathname == "/page-2":
+    if pathname == "/page-1":
         return  html.Div(
     [
-        dbc.Row(dbc.Col(html.Div(dcc.Graph(className='graph', figure=fig, config=dict(
+        dbc.Row(dbc.Col(html.Div(dcc.Graph(className='graph', figure=fig_timeline, config=dict(
             scrollZoom=False,
             showTips=False,
             showAxisDragHandles=False,
@@ -133,17 +110,6 @@ def render_page_content(pathname):
             ))), 
         width="auto")),
 
-        dbc.Row(
-            dbc.Col(html.Div(        
-            dbc.Row(dbc.Col(html.Div(dcc.Graph(className='graph', figure=fig, config=dict(
-            scrollZoom=False,
-            showTips=False,
-            showAxisDragHandles=False,
-            doubleClick=False,
-            displayModeBar=False
-            ))), 
-        width="auto"))))
-        ),
 
         
     ]
@@ -176,13 +142,20 @@ def render_page_content(pathname):
                         'min-width' : '55vw',
                         'padding':'10vh'},
                     children=[
-                        dcc.Graph(className='graph', figure=fig, style={'width': '40vw', }, config=dict(
+                        dcc.Graph(className='graph', figure=fig_timeline, style={'width': '40vw', }, config=dict(
                     scrollZoom=False,
                     showTips=False,
                     showAxisDragHandles=False,
                     doubleClick=False,
                     displayModeBar=False
-                    ))])),
+            
+                    
+                    ))]
+                    ,width="auto")
+                
+                ),
+                          
+                          
                 dbc.Col(html.Div(
                     className='feed-div2',
                     style={
@@ -203,12 +176,7 @@ def render_page_content(pathname):
                                         'fontSize': '16px'}),
                                     html.Div(id='theme2', children=[theme], style={
                                         'fontSize': '16px'})])]))])
-        #return html.Div(className='content', children=[
-        #    html.Header(children=[
-        #        html.H1('Who\'s Speaking?'),
-        #        html.H2('An analysis of Shakespeare\'s Romeo and Juliet')
-        #    ])
-        #])
+
 
         return layout
         #return html.P("This is the content of page 1. Yay!")

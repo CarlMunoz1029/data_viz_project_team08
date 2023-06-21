@@ -62,16 +62,31 @@ def get_general_timeline(df_tl, start_date='2022-12-22', end_date='2023-01-18'):
 
     fig.update_xaxes(tickangle=0,
         dtick="D1",
-        tickformat="%d \n %b %Y")
+        tickformat="%d \n %b %Y",
+        tickfont = dict(size = 12))
 
 
-    fig.update_yaxes(tickfont = dict(size = 14),title = 'Patients')
+    fig.update_yaxes(tickfont = dict(size = 10),
+                     title = 'Patients')
 
     fig.update_layout(plot_bgcolor='whitesmoke',
-                      legend=dict(title="Event"),
+                      legend=dict(title="Event type:",
+                                  font_family="roboto",
+                                  font_size=10,),
                       hoverlabel=dict(bgcolor="white",
                                       font_size=16,
-                                      font_family="Arial"))
+                                      font_family="roboto"),
+                      width=700)
+    
+    fig.update_layout(legend=dict(
+    orientation="h",
+    entrywidth=30,
+    entrywidthmode='fraction',
+    yanchor="top",
+    y=-0.1,
+    xanchor="right",
+    x=1
+))
 
     fig.update_traces(hovertemplate= "<b>%{y}</b><br><br>" +
                                      "<b>%{x|%d %b %Y}, %{customdata[0]}</b><br>" +
