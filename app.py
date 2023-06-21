@@ -49,13 +49,64 @@ def init_app_layout(figure):
         Returns:
             The HTML structure of the app's web page.
     '''
-    return html.Div(className='content', children=[
-        html.Header(children=[
-            html.H1('Who\'s Speaking?'),
-            html.H2('An analysis of Shakespeare\'s Romeo and Juliet')
-        ])
-    ])
+    
+    theme = html.Div(children=[
+    html.Div(html.Button("Filter (does nothing atm)"), style={'padding':'50px'}),
+    html.Div(children=[
+        html.Div(
+         children=[
+                html.Span("Thématique :"), 
+                html.Span("testing1")], 
+            style={"border":"1px solid green","maxHeight": "115px", "background-color":"coral"}),
+        html.Div(
+         children=[
+                html.Span("Thématique :"), html.Br(),
+                html.Span("testing2")],  
+            style={"border":"1px solid green", "maxHeight": "115px","background-color":"darkseagreen"})],
+        style={"maxHeight": "1015px", "overflow-y":"scroll"})])
+    
+    layout = html.Div(
+        className='row',
+        children=[
+            html.Div(
+                className='view-div',
+                style={
+                    'justifyContent': 'center',
+                    'alignItems': 'center',
+                    'text-align':'center',
+                    'display': 'inline-block',
+                    'min-width' : '50vw',
+                    'padding':'10vh'},
+                children=[
+                    html.Span("Insert figure here")]),
+            html.Div(
+                className='feed-div2',
+                style={
+                    'justifyContent': 'center',
+                    'alignItems': 'center',
+                    'display': 'inline-block'},
+                children=[
+                    html.Div(id='feed2', style={
+                        #'visibility': 'hidden',
+                        'border': '1px solid black',
+                        'padding': '10px',
+                        'min-width' : '25vw',
+                        'min-height' : '75vh'},
+                            children=[
+                                html.Div(id='marker-title2', style={
+                                    'fontSize': '24px'}),
+                                html.Div(id='mode2', style={
+                                    'fontSize': '16px'}),
+                                html.Div(id='theme2', children=[theme], style={
+                                    'fontSize': '16px'})])])])
+    #return html.Div(className='content', children=[
+    #    html.Header(children=[
+    #        html.H1('Who\'s Speaking?'),
+    #        html.H2('An analysis of Shakespeare\'s Romeo and Juliet')
+    #    ])
+    #])
 
+    return layout
 
 @app.callback(
     [Output('line-chart', 'figure'), Output('mode', 'children')],
