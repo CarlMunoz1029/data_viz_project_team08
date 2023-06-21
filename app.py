@@ -3,9 +3,9 @@
 
 '''
     File name: app.py
-    Author: Olivia Gélinas
+    Author: Antoine Duplantie
     Course: INF8808
-    Python Version: 3.8
+    Python Version: 3.9.6
 
     This file is the entry point for our dash app.
 '''
@@ -110,8 +110,6 @@ def render_page_content(pathname):
             ))), 
         width="auto")),
 
-
-        
     ]
 )
     elif pathname == "/page-1":
