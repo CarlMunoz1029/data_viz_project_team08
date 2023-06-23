@@ -127,7 +127,7 @@ def get_recent_events(df_tl):
     pain = recent_all[recent_all['HAS_PAIN_MENTION']!=0]
     pain["PAIN_TIME"] = pd.to_datetime(pain["PAIN_TIME"], format='%H:%M')
     pain = pain[['PATIENT_ID', 'DAY', 'PAIN_TIME', 'PAIN_SOURCE']]
-    pain["COLOR"] = "blue"
+    pain["COLOR"] = "cornflowerblue"
     pain["INCIDENT"] = "Pain"
     pain = pain.rename(columns={"PAIN_TIME":"INCIDENT_TIME", "PAIN_SOURCE":"SOURCE"})
     
@@ -140,11 +140,20 @@ def get_recent_events(df_tl):
     fall["FALL_TIME"] = pd.to_datetime(fall["FALL_TIME"], format='%H:%M')
     #print(fall["FALL_TIME"])
     fall = fall[['PATIENT_ID', 'DAY', 'FALL_TIME', 'FALL_SOURCE']]
-    fall["COLOR"] = "orange"
+    fall["COLOR"] = "sandybrown"
     fall["INCIDENT"] = "FALL"
     fall = fall.rename(columns={"FALL_TIME":"INCIDENT_TIME", "FALL_SOURCE":"SOURCE"})
     
-    combined = pd.concat([pain, fall])
+    hospitalization = recent_all[recent_all['HOSPITALIZATION_COUNT']!=0]
+    #print(hospitalization["HOSPITALIZATION_TIME"])
+    hospitalization["HOSPITALIZATION_TIME"] = pd.to_datetime(hospitalization["HOSPITALIZATION_TIME"], format='%H:%M')
+    #print(hospitalization["HOSPITALIZATION_TIME"])
+    hospitalization = hospitalization[['PATIENT_ID', 'DAY', 'HOSPITALIZATION_TIME', 'HOSPITALIZATION_SOURCE']]
+    hospitalization["COLOR"] = "darkred"
+    hospitalization["INCIDENT"] = "HOSPITALIZATION"
+    hospitalization = hospitalization.rename(columns={"HOSPITALIZATION_TIME":"INCIDENT_TIME", "HOSPITALIZATION_SOURCE":"SOURCE"})
+    
+    combined = pd.concat([pain, fall, hospitalization])
     combined = combined.sort_values(["DAY", "INCIDENT_TIME"], ascending=[False, False])
     
     #TODO: hospitalisations, plus a callback for choosing it plus changing the display.  
