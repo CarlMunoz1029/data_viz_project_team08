@@ -17,6 +17,7 @@ from dash import dcc
 from dash import ctx
 from dash.dependencies import Input, Output, State
 import dash_bootstrap_components as dbc
+import dash_core_components as dcc
 
 from preprocess import preprocess_general_timeline
 from general_timeline import get_general_timeline
@@ -50,6 +51,9 @@ recent_events = preprocess.get_recent_events(df_tl)
 curr=recent_events
 app = dash.Dash(external_stylesheets=[dbc.themes.JOURNAL])
 app.title = "project session INF8808"
+#notesfeed fd
+df = pd.read_csv('assets/notes.csv')
+df = df.sort_values(by='DAY', ascending=False)
 
 # the style arguments for the sidebar. We use position:fixed and a fixed width
 SIDEBAR_STYLE = {
@@ -68,6 +72,10 @@ CONTENT_STYLE = {
     "margin-left": "18rem",
     "margin-right": "2rem",
     "padding": "2rem 1rem",
+}
+NOTEFEED_STYLE ={
+  "width": "300px",
+  'padding': '10px',
 }
 
 sidebar = html.Div(
@@ -88,6 +96,25 @@ sidebar = html.Div(
         ),
     ],
     style=SIDEBAR_STYLE,
+)
+
+notesFeed = html.Div(
+    children=[
+        html.H1("Patient Notes Feed"),
+        html.Div(
+            children=[
+                html.H3("Patient Filter"),
+                dcc.Dropdown(
+                    id='patient-dropdown',
+                    options=[{'label': str(pid), 'value': pid} for pid in df['PATIENT_ID'].unique()],
+                    placeholder='Select a patient',
+                    style=NOTEFEED_STYLE
+                ),
+            ],
+            style={'margin': '10px'}
+        ),
+        html.Div(id='note-feed')
+    ]
 )
 
 content = html.Div(id="page-content", style=CONTENT_STYLE)
@@ -167,7 +194,7 @@ def render_page_content(pathname):
         return layout
         #return html.P("This is the content of page 1. Yay!")
     elif pathname == "/page-2":
-        return html.P("Oh cool, this is page 2!")
+        return notesFeed
     # If the user tries to reach a different page, return a 404 message
     return html.Div(
         [
@@ -185,8 +212,57 @@ convert={0: None, 1:"PAIN",2:"FALL",3:"HOSPITALIZATION"}
 @app.callback(
     Output('popover-confirm', 'n_clicks'),
     Output('card_main', 'children'),
+    
     Input('checklist-input', 'value'),
-    Input('popover-confirm', 'n_clicks'))
+    Input('popover-confirm', 'n_clicks'),
+   
+    )
+
+@app.callback(
+    dash.dependencies.Output('note-feed', 'children'),
+     dash.dependencies.Input('patient-dropdown', 'value')
+)
+def display_note_feed(selected_patient):
+    if not selected_patient:
+        return html.Div()
+
+    filtered_df = df[df['PATIENT_ID'] == selected_patient]
+
+    if filtered_df.empty:
+        return html.Div()
+
+    note_items = []
+    for _, row in filtered_df.iterrows():
+        note_date = row['DAY']
+        note_type = row['NOTE_TYPE']
+        note_content = row['NOTE']
+        
+        note_item = html.Div(
+            children=[
+                html.Div(
+                      html.P(f"Type: {note_type}")
+                ),
+                html.Div(children =[
+                html.P(f"Note: {note_content}"),
+                html.H6(f"Date:Sent on the {note_date}")])
+                
+            ],
+            style={'border': '1px solid black', 'padding': '10px',"margin-top":'40px', 'margin-bottom': '10px',"width": "400px",'overflow-y':'auto' }
+        )
+        note_items.append(note_item)
+
+    return html.Div(
+            note_items, style={
+            'height':'400px',
+        'overflow-y':'scroll',
+        'position':'absolute',
+        'right':'2px',
+        'top-padding':'10px',
+        'left-margin':'10px',
+        'border': '2px solid black'
+        })
+
+
 def on_click_confirm(value, n_clicks):
     print(ctx.triggered_id)
     if ctx.triggered_id=='popover-confirm' and ctx.triggered_id!="checklist-input":
