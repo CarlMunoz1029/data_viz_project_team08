@@ -128,7 +128,7 @@ def get_recent_events(df_tl):
     pain["PAIN_TIME"] = pd.to_datetime(pain["PAIN_TIME"], format='%H:%M')
     pain = pain[['PATIENT_ID', 'DAY', 'PAIN_TIME', 'PAIN_SOURCE']]
     pain["COLOR"] = "cornflowerblue"
-    pain["INCIDENT"] = "Pain"
+    pain["INCIDENT"] = "PAIN"
     pain = pain.rename(columns={"PAIN_TIME":"INCIDENT_TIME", "PAIN_SOURCE":"SOURCE"})
     
     print(pain.columns)

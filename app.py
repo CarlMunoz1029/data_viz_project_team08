@@ -14,6 +14,7 @@
 import dash
 from dash import html
 from dash import dcc
+from dash import ctx
 from dash.dependencies import Input, Output, State
 import dash_bootstrap_components as dbc
 
@@ -46,7 +47,7 @@ df_tl = preprocess_general_timeline(df_tl)
 fig_timeline = get_general_timeline(df_tl)
 
 recent_events = preprocess.get_recent_events(df_tl)
-
+curr=recent_events
 app = dash.Dash(external_stylesheets=[dbc.themes.JOURNAL])
 app.title = "project session INF8808"
 
@@ -100,7 +101,7 @@ def render_page_content(pathname):
         filter_button = html.Div(
     [
          dbc.Button(
-            "popover-target",
+            "Filter incidents",
             id="popover-target",
             className="me-1",
         ),
@@ -109,9 +110,9 @@ def render_page_content(pathname):
         dbc.Label("Choose a bunch"),
         dbc.Checklist(
             options=[
-                {"label": "Option 1", "value": 1},
-                {"label": "Option 2", "value": 2},
-                {"label": "Option 3n", "value": 3,},
+                {"label": "Pain", "value": 1},
+                {"label": "Falls", "value": 2},
+                {"label": "Hospitalizations", "value": 3,},
             ],
             value=[1,2,3],
             id="checklist-input",
@@ -119,6 +120,7 @@ def render_page_content(pathname):
         dbc.Button(
             "confirm",
             id="popover-confirm",
+            n_clicks=0,
             className="me-3",
         )
     ]),
@@ -129,7 +131,7 @@ def render_page_content(pathname):
 )
         theme = html.Div(children=[dbc.Row([dbc.Col([html.Span("All incidents"), html.Br(),html.Br(),html.Span("Past 24h")]),
                                             dbc.Col(filter_button)]), html.Br(),
-        html.Div(children=[dbc.Card([dbc.CardBody([html.H5("Card title", className="card-title"),html.Span("Patient : "+recent_events["PATIENT_ID"][i]), html.Br(),
+        html.Div(id='card_main', children=[dbc.Card([dbc.CardBody([html.H5(recent_events["INCIDENT"][i].title(), className="card-title"),html.Span("Patient : "+recent_events["PATIENT_ID"][i]), html.Br(),
                     html.Span(recent_events["DAY"][i].strftime('%Y-%m-%d') +" ; "+ recent_events["INCIDENT_TIME"][i].strftime('%H:%M'))])], 
                                     style={"maxHeight": "115px","background-color":recent_events["COLOR"][i], 'color':'white'}) for i in recent_events.index],
             style={"maxHeight": "1015px", "overflow-y":"scroll","background-color": "#f8f9fa",'height' : '60vh','border': '1px solid black'})])        
@@ -178,4 +180,19 @@ def render_page_content(pathname):
 
 
 
+convert={0: None, 1:"PAIN",2:"FALL",3:"HOSPITALIZATION"}
 
+@app.callback(
+    Output('popover-confirm', 'n_clicks'),
+    Output('card_main', 'children'),
+    Input('checklist-input', 'value'),
+    Input('popover-confirm', 'n_clicks'))
+def on_click_confirm(value, n_clicks):
+    print(ctx.triggered_id)
+    if ctx.triggered_id=='popover-confirm' and ctx.triggered_id!="checklist-input":
+        present = [convert[i] for i in value]
+        curr = recent_events.loc[recent_events["INCIDENT"].isin(present),:]
+        
+    return 0, [dbc.Card([dbc.CardBody([html.H5(recent_events["INCIDENT"][i].title(), className="card-title"),html.Span("Patient : "+recent_events["PATIENT_ID"][i]), html.Br(),
+                    html.Span(recent_events["DAY"][i].strftime('%Y-%m-%d') +" ; "+ recent_events["INCIDENT_TIME"][i].strftime('%H:%M'))])], 
+                                    style={"maxHeight": "115px","background-color":recent_events["COLOR"][i], 'color':'white'}) for i in curr.index]
