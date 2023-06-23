@@ -110,6 +110,47 @@ def combine_dfs(df1, df2):
     return df
 
 
+
+
+# Gets the most recent events. 
+#TODO: this is a little more complicated than expected
+def get_recent_events(df_tl):
+    oldest=max(df_tl.DAY)
+    youngest=oldest-datetime.timedelta(days=1)
+    mask = (df_tl["DAY"] >= youngest) & (df_tl["DAY"] <= oldest)
+    
+    recent_all = df_tl.loc[mask]
+    print(recent_all.columns)
+    ### Get the datetime for each event. Like make a new df where we put it in the details of each event 
+    ### In a way that is ok.
+    
+    pain = recent_all[recent_all['HAS_PAIN_MENTION']!=0]
+    pain["PAIN_TIME"] = pd.to_datetime(pain["PAIN_TIME"], format='%H:%M')
+    pain = pain[['PATIENT_ID', 'DAY', 'PAIN_TIME', 'PAIN_SOURCE']]
+    pain["COLOR"] = "blue"
+    pain["INCIDENT"] = "Pain"
+    pain = pain.rename(columns={"PAIN_TIME":"INCIDENT_TIME", "PAIN_SOURCE":"SOURCE"})
+    
+    print(pain.columns)
+    #pain = pain.sort_values(["DAY", "PAIN_TIME"], ascending=[False, False])
+
+
+    fall = recent_all[recent_all['FALL_COUNT']!=0]
+    #print(fall["FALL_TIME"])
+    fall["FALL_TIME"] = pd.to_datetime(fall["FALL_TIME"], format='%H:%M')
+    #print(fall["FALL_TIME"])
+    fall = fall[['PATIENT_ID', 'DAY', 'FALL_TIME', 'FALL_SOURCE']]
+    fall["COLOR"] = "orange"
+    fall["INCIDENT"] = "FALL"
+    fall = fall.rename(columns={"FALL_TIME":"INCIDENT_TIME", "FALL_SOURCE":"SOURCE"})
+    
+    combined = pd.concat([pain, fall])
+    combined = combined.sort_values(["DAY", "INCIDENT_TIME"], ascending=[False, False])
+    
+    #TODO: hospitalisations, plus a callback for choosing it plus changing the display.  
+    #print(combined["DAY"])
+    return combined
+
 def sort_dy_by_yr_continent(my_df):
     '''
         Sorts the dataframe by year and then by continent.

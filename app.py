@@ -46,8 +46,7 @@ df_tl = pd.read_csv('assets/timeline_dataset.csv', index_col=0)
 df_tl = preprocess_general_timeline(df_tl)
 fig_timeline = get_general_timeline(df_tl)
 
-
-
+recent_events = preprocess.get_recent_events(df_tl)
 
 app = dash.Dash(external_stylesheets=[dbc.themes.JOURNAL])
 app.title = "project session INF8808"
@@ -99,63 +98,49 @@ app.layout = html.Div([dcc.Location(id="url"), sidebar, content])
 @app.callback(Output("page-content", "children"), [Input("url", "pathname")])
 def render_page_content(pathname):
     if pathname == "/page-1":
-        return  html.Div(
+        filter_button = html.Div(
     [
-        dbc.Row(dbc.Col(html.Div(dcc.Graph(className='graph', figure=fig_timeline, config=dict(
+         dbc.Button(
+            "popover-target",
+            id="popover-target",
+            className="me-1",
+        ),
+        dbc.Popover(
+            dbc.PopoverBody([
+        dbc.Label("Choose a bunch"),
+        dbc.Checklist(
+            options=[
+                {"label": "Option 1", "value": 1},
+                {"label": "Option 2", "value": 2},
+                {"label": "Option 3n", "value": 3,},
+            ],
+            value=[1,2,3],
+            id="checklist-input",
+        ),
+        dbc.Button(
+            "confirm",
+            id="popover-confirm",
+            className="me-3",
+        )
+    ]),
+            target="popover-target",
+            trigger="click",
+        ),
+    ]
+)
+        theme = html.Div(children=[dbc.Row([dbc.Col([html.Span("All incidents"), html.Br(),html.Br(),html.Span("Past 24h")]),
+                                            dbc.Col(filter_button)]), html.Br(),
+        html.Div(children=[dbc.Card([dbc.CardBody([html.H5("Card title", className="card-title"),html.Span("Patient : "+recent_events["PATIENT_ID"][i]), html.Br(),
+                    html.Span(recent_events["DAY"][i].strftime('%Y-%m-%d') +" ; "+ recent_events["INCIDENT_TIME"][i].strftime('%H:%M'))])], 
+                                    style={"maxHeight": "115px","background-color":recent_events["COLOR"][i], 'color':'white'}) for i in recent_events.index],
+            style={"maxHeight": "1015px", "overflow-y":"scroll","background-color": "#f8f9fa",'height' : '60vh','border': '1px solid black'})])        
+        layout = dbc.Row([dbc.Col(html.Div(dcc.Graph(className='graph', figure=fig_timeline, config=dict(
             scrollZoom=False,
             showTips=False,
             showAxisDragHandles=False,
             doubleClick=False,
             displayModeBar=False
-            ))), 
-        width="auto")),
-
-
-        
-    ]
-)
-    elif pathname == "/page-1":
-        
-        theme = html.Div(children=[
-        html.Div(html.Button("Filter (does nothing atm)"), style={'padding':'50px'}),
-        html.Div(children=[
-            html.Div(
-            children=[
-                    html.Span("Thématique :"), 
-                    html.Span("testing1")], 
-                style={"border":"1px solid green","maxHeight": "115px", "background-color":"coral"}),
-            html.Div(
-            children=[
-                    html.Span("Thématique :"), html.Br(),
-                    html.Span("testing2")],  
-                style={"border":"1px solid green", "maxHeight": "115px","background-color":"darkseagreen"})],
-            style={"maxHeight": "1015px", "overflow-y":"scroll"})])
-        
-        layout = dbc.Row([dbc.Col(
-                html.Div(
-                    className='view-div',
-                    style={
-                        'justifyContent': 'center',
-                        'alignItems': 'center',
-                        'text-align':'center',
-                        'display': 'inline-block',
-                        'min-width' : '55vw',
-                        'padding':'10vh'},
-                    children=[
-                        dcc.Graph(className='graph', figure=fig_timeline, style={'width': '40vw', }, config=dict(
-                    scrollZoom=False,
-                    showTips=False,
-                    showAxisDragHandles=False,
-                    doubleClick=False,
-                    displayModeBar=False
-            
-                    
-                    ))]
-                    ,width="auto")
-                
-                ),
-                          
-                          
+            ), style={'width': '55vw', 'height':'75vh'}))),
                 dbc.Col(html.Div(
                     className='feed-div2',
                     style={
@@ -167,7 +152,7 @@ def render_page_content(pathname):
                             #'visibility': 'hidden',
                             'border': '1px solid black',
                             'padding': '10px',
-                            'min-width' : '20vw',
+                            'min-width' : '15vw',
                             'min-height' : '75vh'},
                                 children=[
                                     html.Div(id='marker-title2', style={
@@ -193,6 +178,5 @@ def render_page_content(pathname):
     )
 
 
-if __name__ == "__main__":
-    app.run_server(port=8889)
+
 

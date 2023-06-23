@@ -12,6 +12,15 @@ def get_general_timeline(df_tl, start_date='2022-12-22', end_date='2023-01-18'):
     # start and end dates of the viz
     start_date = pd.to_datetime(start_date)
     end_date = pd.to_datetime(end_date)
+    
+    # create centered tickvals and text
+    x_ticks_pos = pd.date_range(start_date + timedelta(hours=12), end_date + timedelta(days=1, hours=12), freq="24H")
+    x_tick_text = pd.date_range(start_date, end_date + timedelta(days=1), freq="24H")
+    
+    idx_fom = 28 - int(end_date.strftime("%d"))
+    x_tick_text_form = [x_tick_text[i].strftime("%d </br></br> %b %Y") if i in [0,idx_fom] else x_tick_text[i].strftime("%d") for i in range(len(x_tick_text))]
+
+    
 
     fig = px.timeline(df_tl, x_start="DAY",
                       x_end='DAY',
@@ -61,8 +70,9 @@ def get_general_timeline(df_tl, start_date='2022-12-22', end_date='2023-01-18'):
     fig.data[3].name = 'Hospitalization'
 
     fig.update_xaxes(tickangle=0,
+        tickvals=x_ticks_pos,
+        ticktext =x_tick_text_form ,
         dtick="D1",
-        tickformat="%d \n %b %Y",
         tickfont = dict(size = 12))
 
 
