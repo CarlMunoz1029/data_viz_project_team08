@@ -21,7 +21,7 @@ import dash_core_components as dcc
 
 from preprocess import preprocess_general_timeline
 from general_timeline import get_general_timeline
-
+from adls_graph import get_patient_graph
 
 
 import pandas as pd
@@ -245,7 +245,7 @@ def display_note_feed(selected_patient):
         )
         note_items.append(note_item)
 
-    return html.Div(
+    return html.Div([html.Div(dcc.Graph(className='graph', figure=get_patient_graph(selected_patient))),html.Div(
             note_items, style={
             'height':'400px',
         'overflow-y':'scroll',
@@ -254,7 +254,7 @@ def display_note_feed(selected_patient):
         'top-padding':'10px',
         'left-margin':'10px',
         'border': '2px solid black'
-        })
+        })])
 
 @app.callback(
     Output('popover-confirm', 'n_clicks'),
