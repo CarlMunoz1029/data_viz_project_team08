@@ -32,7 +32,7 @@ import pandas as pd
 
 import dash
 import dash_bootstrap_components as dbc
-from dash import Input, Output, dcc, html
+from dash import Input, Output, dcc, html, ctx, ALL
 
 import json
 import preprocess
@@ -79,6 +79,22 @@ NOTEFEED_STYLE ={
   'padding': '10px',
 }
 
+PATIENT_LIST_STYLE={
+    'height': '46px',
+    "marginTop": 2.5,
+    "fontSize": 15,
+    "font-weight": 'bold',
+    "textAlign": "center"}
+
+
+PATIENT_LIST_STYLE_FIRST={
+    'height': '46px',
+    "marginTop":40,
+    "fontSize": 15,
+    "font-weight": 'bold',
+    "textAlign": "center"
+}
+
 sidebar = html.Div(
     [
         html.H2("AlayaCare", className="display-4"),
@@ -118,6 +134,49 @@ notesFeed = html.Div(
     ]
 )
 
+
+patient_names = list(df_tl['PATIENT_ID'].unique())
+
+
+# list_patients = html.Div(
+#     [
+#         dbc.ListGroup(dbc.Stack(
+#             [
+#                 dbc.ListGroupItem(patient_names[-1], id="button-item-p1", n_clicks=0, action=True, style=PATIENT_LIST_STYLE_FIRST, className="border "),
+#                 dbc.ListGroupItem(patient_names[-2], id="button-item-p2", n_clicks=0, action=True, style=PATIENT_LIST_STYLE, className="border "),
+#                 dbc.ListGroupItem(patient_names[-3], id="button-item-p3", n_clicks=0, action=True, style=PATIENT_LIST_STYLE, className="border "),
+#                 dbc.ListGroupItem(patient_names[-4], id="button-item-p4", n_clicks=0, action=True, style=PATIENT_LIST_STYLE, className="border "),
+#                 dbc.ListGroupItem(patient_names[-5], id="button-item-p5", n_clicks=0, action=True, style=PATIENT_LIST_STYLE, className="border "),
+#                 dbc.ListGroupItem(patient_names[-6], id="button-item-p6", n_clicks=0, action=True, style=PATIENT_LIST_STYLE, className="border "),
+#                 dbc.ListGroupItem(patient_names[-7], id="button-item-p7", n_clicks=0, action=True, style=PATIENT_LIST_STYLE, className="border "),
+#                 dbc.ListGroupItem(patient_names[-8], id="button-item-p8", n_clicks=0, action=True, style=PATIENT_LIST_STYLE, className="border "),
+#                 dbc.ListGroupItem(patient_names[-9], id="button-item-p9", n_clicks=0, action=True, style=PATIENT_LIST_STYLE, className="border "),
+#                 dbc.ListGroupItem(patient_names[-10], id="button-item-p10", n_clicks=0, action=True,style =PATIENT_LIST_STYLE, className="border ")
+#             ], gap=3)
+#         )
+#     ]
+# )
+
+list_patients = html.Div(
+    [
+        dbc.ListGroup(dbc.Stack(
+            [
+                dbc.ListGroupItem(patient_names[-1], href="/page-3", n_clicks=0, action=True, style=PATIENT_LIST_STYLE_FIRST, className="border "),
+                dbc.ListGroupItem(patient_names[-2], href="/page-4", n_clicks=0, action=True, style=PATIENT_LIST_STYLE, className="border "),
+                dbc.ListGroupItem(patient_names[-3], href="/page-5", n_clicks=0, action=True, style=PATIENT_LIST_STYLE, className="border "),
+                dbc.ListGroupItem(patient_names[-4], href="/page-6", n_clicks=0, action=True, style=PATIENT_LIST_STYLE, className="border "),
+                dbc.ListGroupItem(patient_names[-5], href="/page-7", n_clicks=0, action=True, style=PATIENT_LIST_STYLE, className="border "),
+                dbc.ListGroupItem(patient_names[-6], href="/page-8", n_clicks=0, action=True, style=PATIENT_LIST_STYLE, className="border "),
+                dbc.ListGroupItem(patient_names[-7], href="/page-9", n_clicks=0, action=True, style=PATIENT_LIST_STYLE, className="border "),
+                dbc.ListGroupItem(patient_names[-8], href="/page-10", n_clicks=0, action=True, style=PATIENT_LIST_STYLE, className="border "),
+                dbc.ListGroupItem(patient_names[-9], href="/page-11", n_clicks=0, action=True, style=PATIENT_LIST_STYLE, className="border "),
+                dbc.ListGroupItem(patient_names[-10], href="/page-12", action=True, style =PATIENT_LIST_STYLE, className="border ")
+            ], gap=2)
+        )
+    ]
+)
+
+
 content = html.Div(id="page-content", style=CONTENT_STYLE)
 
 app.layout = html.Div([dcc.Location(id="url"), sidebar, content])
@@ -125,86 +184,129 @@ app.layout = html.Div([dcc.Location(id="url"), sidebar, content])
 
 @app.callback(Output("page-content", "children"), [Input("url", "pathname")])
 def render_page_content(pathname):
-    if pathname == "/page-1":
-        filter_button = html.Div(
-    [
-         dbc.Button(
-            "Filter incidents",
-            id="popover-target",
-            className="me-1",
-        ),
-        dbc.Popover(
-            dbc.PopoverBody([
-        dbc.Label("Choose a bunch"),
-        dbc.Checklist(
-            options=[
-                {"label": "Pain", "value": 1},
-                {"label": "Falls", "value": 2},
-                {"label": "Hospitalizations", "value": 3,},
-            ],
-            value=[1,2,3],
-            id="checklist-input",
-        ),
-        dbc.Button(
-            "confirm",
-            id="popover-confirm",
-            n_clicks=0,
-            className="me-3",
-        )
-    ]),
-            target="popover-target",
-            trigger="click",
-        ),
-    ]
-)
-        theme = html.Div(children=[dbc.Row([dbc.Col([html.Span("All incidents"), html.Br(),html.Br(),html.Span("Past 24h")]),
-                                            dbc.Col(filter_button)]), html.Br(),
-        html.Div(id='card_main', children=[dbc.Card([dbc.CardBody([html.H5(recent_events["INCIDENT"][i].title(), className="card-title"),html.Span("Patient : "+recent_events["PATIENT_ID"][i]), html.Br(),
-                    html.Span(recent_events["DAY"][i].strftime('%Y-%m-%d') +" ; "+ recent_events["INCIDENT_TIME"][i].strftime('%H:%M'))])], 
-                                    style={"maxHeight": "115px","background-color":recent_events["COLOR"][i], 'color':'white'}) for i in recent_events.index],
-            style={"maxHeight": "1015px", "overflow-y":"scroll","background-color": "#f8f9fa",'height' : '60vh','border': '1px solid black'})])        
-        layout = dbc.Row([dbc.Col(html.Div(dcc.Graph(className='graph', figure=fig_timeline, config=dict(
-            scrollZoom=False,
-            showTips=False,
-            showAxisDragHandles=False,
-            doubleClick=False,
-            displayModeBar=False
-            ), style={'width': '55vw', 'height':'75vh'}))),
-                dbc.Col(html.Div(
-                    className='feed-div2',
-                    style={
-                        'justifyContent': 'center',
-                        'alignItems': 'center',
-                        'display': 'inline-block'},
-                    children=[
-                        html.Div(id='feed2', style={
-                            #'visibility': 'hidden',
-                            'border': '1px solid black',
-                            'padding': '10px',
-                            'min-width' : '15vw',
-                            'min-height' : '75vh'},
-                                children=[
-                                    html.Div(id='marker-title2', style={
-                                        'fontSize': '24px'}),
-                                    html.Div(id='mode2', style={
-                                        'fontSize': '16px'}),
-                                    html.Div(id='theme2', children=[theme], style={
-                                        'fontSize': '16px'})])]))])
 
+    
+    filter_button = html.Div(
+[
+        dbc.Button(
+        "Filter incidents",
+        id="popover-target",
+        className="me-1",
+    ),
+    dbc.Popover(
+        dbc.PopoverBody([
+    dbc.Label("Choose a bunch"),
+    dbc.Checklist(
+        options=[
+            {"label": "Pain", "value": 1},
+            {"label": "Falls", "value": 2},
+            {"label": "Hospitalizations", "value": 3,},
+        ],
+        value=[1,2,3],
+        id="checklist-input",
+    ),
+    dbc.Button(
+        "confirm",
+        id="popover-confirm",
+        n_clicks=0,
+        className="me-3",
+    )
+]),
+        target="popover-target",
+        trigger="click",
+    ),
+]
+)
+    theme = html.Div(children=[dbc.Row([dbc.Col([html.Span("All incidents"), html.Br(),html.Br(),html.Span("Past 24h")]),
+                                        dbc.Col(filter_button)]), html.Br(),
+    html.Div(id='card_main', children=[dbc.Card([dbc.CardBody([html.H5(recent_events["INCIDENT"][i].title(), className="card-title"),html.Span("Patient : "+recent_events["PATIENT_ID"][i]), html.Br(),
+                html.Span(recent_events["DAY"][i].strftime('%Y-%m-%d') +" ; "+ recent_events["INCIDENT_TIME"][i].strftime('%H:%M'))])], 
+                                style={"maxHeight": "115px","background-color":recent_events["COLOR"][i], 'color':'white'}) for i in recent_events.index],
+        style={"maxHeight": "1015px", "overflow-y":"scroll","background-color": "#f8f9fa",'height' : '60vh','border': '1px solid black'})])        
+    layout = dbc.Row([dbc.Col(list_patients, align="top"), dbc.Col(html.Div(dcc.Graph(className='graph', figure=fig_timeline, config=dict(
+        scrollZoom=False,
+        showTips=False,
+        showAxisDragHandles=False,
+        doubleClick=False,
+        displayModeBar=False
+        ), style={'width': '55vw', 'height':'75vh'}))),
+            dbc.Col(html.Div(
+                className='feed-div2',
+                style={
+                    'justifyContent': 'center',
+                    'alignItems': 'center',
+                    'display': 'inline-block'},
+                children=[
+                    html.Div(id='feed2', style={
+                        #'visibility': 'hidden',
+                        'border': '1px solid black',
+                        'padding': '10px',
+                        'min-width' : '15vw',
+                        'min-height' : '75vh'},
+                            children=[
+                                html.Div(id='marker-title2', style={
+                                    'fontSize': '24px'}),
+                                html.Div(id='mode2', style={
+                                    'fontSize': '16px'}),
+                                html.Div(id='theme2', children=[theme], style={
+                                    'fontSize': '16px'})])]))], className="g-0")
+
+    if pathname == "/page-1":
 
         return layout
         #return html.P("This is the content of page 1. Yay!")
     elif pathname == "/page-2":
         return notesFeed
+    
+
+    elif pathname in ["/page-3","/page-4","/page-5","/page-6","/page-7","/page-8","/page-9","/page-10","/page-11","/page-12"]:
+
+        selected_patient = patient_names[-(int(pathname[-1])-2)]
+        filtered_df = df[df['PATIENT_ID'] == selected_patient]
+
+        note_items = []
+        for _, row in filtered_df.iterrows():
+            note_date = row['DAY']
+            note_type = row['NOTE_TYPE']
+            note_content = row['NOTE']
+            
+            note_item = html.Div(
+                children=[
+                    html.Div(
+                        html.P(f"Type: {note_type}")
+                    ),
+                    html.Div(children =[
+                    html.P(f"Note: {note_content}"),
+                    html.H6(f"Date:Sent on the {note_date}")])
+                    
+                ],
+                style={'border': '1px solid black', 'padding': '10px',"margin-top":'40px', 'margin-bottom': '10px','overflow-y':'auto' }
+            )
+            note_items.append(note_item)
+
+        return html.Div([html.Div(dcc.Graph(className='graph', figure=get_patient_graph(selected_patient))),html.Div(
+                note_items, style={
+                'height':'400px',
+            'overflow-y':'scroll',
+            #'position':'absolute',
+            #'right':'2px',
+            'top-padding':'10px',
+            'left-margin':'10px',
+            'border': '2px solid black'
+            })])
+    
+
     # If the user tries to reach a different page, return a 404 message
-    return html.Div(
-        [
-            html.H1("404: Not found", className="text-danger"),
-            html.Hr(),
-            html.P(f"The pathname {pathname} was not recognised..."),
-        ],
-        className="p-3 bg-light rounded-3",
-    )
+    return layout
+
+    #     html.Div(
+    #     [
+    #         html.H1("404: Not found", className="text-danger"),
+    #         html.Hr(),
+    #         html.P(f"The pathname {pathname} was not recognised..."),
+    #     ],
+    #     className="p-3 bg-light rounded-3",
+    # )
 
 
 

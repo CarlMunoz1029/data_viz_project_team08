@@ -58,7 +58,7 @@ def get_general_timeline(df_tl, start_date='2022-12-22', end_date='2023-01-18'):
 
     fig.add_trace(fig3.data[0])
 
-    fig.update_layout(title_text='Hospitalization, Fall and Pain mention', title_x=0.5)
+    fig.update_layout(title_text='Hospitalization, Fall and Pain mention', title_x=0.5, title=dict(font=dict(size=25)))
 
     fig.data[0].showlegend = False
     fig.data[1].showlegend = True
@@ -76,19 +76,23 @@ def get_general_timeline(df_tl, start_date='2022-12-22', end_date='2023-01-18'):
         tickfont = dict(size = 12))
 
 
-    fig.update_yaxes(tickfont = dict(size = 10),
-                     title = 'Patients')
+    #fig.update_yaxes(tickfont = dict(size = 10),
+    #                 title = 'Patients')
+
+
+    fig.update_yaxes(visible=False, showticklabels=False)
 
     fig.update_layout(plot_bgcolor='whitesmoke',
                       legend=dict(title="Event type:",
                                   font_family="roboto",
-                                  font_size=10,),
+                                  font_size=20,),
                       hoverlabel=dict(bgcolor="white",
                                       font_size=16,
                                       font_family="roboto"),
                       width=700)
     
-    fig.update_layout(legend=dict(
+    fig.update_layout(margin=dict(l=0,r=20,b=0,t=40),
+                      legend=dict(
     orientation="h",
     entrywidth=30,
     entrywidthmode='fraction',
