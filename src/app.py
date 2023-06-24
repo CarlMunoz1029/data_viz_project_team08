@@ -209,14 +209,7 @@ def render_page_content(pathname):
 
 convert={0: None, 1:"PAIN",2:"FALL",3:"HOSPITALIZATION"}
 
-@app.callback(
-    Output('popover-confirm', 'n_clicks'),
-    Output('card_main', 'children'),
-    
-    Input('checklist-input', 'value'),
-    Input('popover-confirm', 'n_clicks'),
-   
-    )
+
 
 @app.callback(
     dash.dependencies.Output('note-feed', 'children'),
@@ -262,7 +255,14 @@ def display_note_feed(selected_patient):
         'border': '2px solid black'
         })
 
-
+@app.callback(
+    Output('popover-confirm', 'n_clicks'),
+    Output('card_main', 'children'),
+    
+    Input('checklist-input', 'value'),
+    Input('popover-confirm', 'n_clicks'),
+   
+    )
 def on_click_confirm(value, n_clicks):
     print(ctx.triggered_id)
     if ctx.triggered_id=='popover-confirm' and ctx.triggered_id!="checklist-input":
