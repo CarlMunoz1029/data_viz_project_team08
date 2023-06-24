@@ -241,7 +241,7 @@ def display_note_feed(selected_patient):
                 html.H6(f"Date:Sent on the {note_date}")])
                 
             ],
-            style={'border': '1px solid black', 'padding': '10px',"margin-top":'40px', 'margin-bottom': '10px',"width": "400px",'overflow-y':'auto' }
+            style={'border': '1px solid black', 'padding': '10px',"margin-top":'40px', 'margin-bottom': '10px','overflow-y':'auto' }
         )
         note_items.append(note_item)
 
@@ -249,8 +249,8 @@ def display_note_feed(selected_patient):
             note_items, style={
             'height':'400px',
         'overflow-y':'scroll',
-        'position':'absolute',
-        'right':'2px',
+        #'position':'absolute',
+        #'right':'2px',
         'top-padding':'10px',
         'left-margin':'10px',
         'border': '2px solid black'
