@@ -50,6 +50,7 @@ fig_timeline = get_general_timeline(df_tl)
 recent_events = preprocess.get_recent_events(df_tl)
 curr=recent_events
 app = dash.Dash(external_stylesheets=[dbc.themes.JOURNAL])
+server = app.server
 app.title = "project session INF8808"
 #notesfeed fd
 df = pd.read_csv('assets/notes.csv')
