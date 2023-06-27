@@ -72,9 +72,9 @@ def get_general_timeline(df_tl, start_date='2022-12-22', end_date='2023-01-18'):
     # workaround because setting visible=False removed to first tick label of the x axis
     fig.update_yaxes(title=" ", titlefont=dict(size=5), showticklabels=False)
 
-    fig.update_layout(title_text='Hospitalization, Fall and Pain mention - new7',
-                    title_x=0.5, title=dict(font=dict(size=20)),
-                    autosize=True) #,
+    fig.update_layout(title_text='Hospitalization, Fall and Pain mention - new8',
+                    title_x=0.5, title=dict(font=dict(size=20)))
+                    #autosize=True) #,
                     #width='50vw',
                     #height='75vh')
 
@@ -86,7 +86,7 @@ def get_general_timeline(df_tl, start_date='2022-12-22', end_date='2023-01-18'):
                                       font_size=16,
                                       font_family="roboto"))
 
-    fig.update_layout(margin=dict(l=0, r=10, b=0, t=40),
+    fig.update_layout(margin=dict(l=0, r=0, b=0, t=40),
                       legend=dict(orientation="h",
                                   entrywidth=30,
                                   entrywidthmode='fraction',

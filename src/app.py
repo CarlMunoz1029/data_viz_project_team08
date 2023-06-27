@@ -212,20 +212,20 @@ def render_page_content(pathname):
         doubleClick=False,
         displayModeBar=False
         ), style={'height': '75vh',
-                  'width':'47vw'}))), 
+                  'width':'45vw'}))), 
             dbc.Col(html.Div(
                 className='feed-div2',
                 style={
                     'justifyContent': 'center',
                     'alignItems': 'center',
                     'display': 'inline-block',
-                    'width': '16.5vw'},
+                    'width': '15vw'},
                 children=[
                     html.Div(id='feed2', style={
                         #'visibility': 'hidden',
                         'border': '1px solid black',
                         'padding': '10px',
-                        'min-width' : '16.5vw',
+                        'min-width' : '15vw',
                         'min-height' : '75vh'},
                             children=[
                                 html.Div(id='marker-title2', style={
