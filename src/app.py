@@ -77,8 +77,8 @@ NOTEFEED_STYLE ={
 }
 
 PATIENT_LIST_STYLE={
-    'width': '9.6rem',
-    'height': "2.3rem",
+    'width': '10vw',
+    'height': "2.3vw",
     "marginTop": 2.5,
     "fontSize": 13,
     "font-weight": 'bold',
@@ -86,8 +86,8 @@ PATIENT_LIST_STYLE={
 
 
 PATIENT_LIST_STYLE_FIRST={
-    'width': '9.6rem',
-    'height': "2.3rem",
+    'width': '10vw',
+    'height': "2.3vw",
     "marginTop":40,
     "fontSize": 13,
     "font-weight": 'bold',
@@ -216,21 +216,21 @@ def render_page_content(pathname):
                     'justifyContent': 'center',
                     'alignItems': 'center',
                     'display': 'inline-block',
-                    'width': '13vw'},
+                    'width': '12vw'},
                 children=[
                     html.Div(id='feed2', style={
                         #'visibility': 'hidden',
                         'border': '1px solid black',
                         'padding': '10px',
-                        'min-width' : '13vw',
+                        'min-width' : '12vw',
                         'min-height' : '75vh'},
                             children=[
                                 html.Div(id='marker-title2', style={
-                                    'fontSize': '20px'}),
+                                    'fontSize': '18px'}),
                                 html.Div(id='mode2', style={
-                                    'fontSize': '16px'}),
+                                    'fontSize': '18px'}),
                                 html.Div(id='theme2', children=[theme], style={
-                                    'fontSize': '16px'})])]))], className="g-0")
+                                    'fontSize': '14px'})])]))], className="g-0")
 
     if pathname == "/page-1":
 
