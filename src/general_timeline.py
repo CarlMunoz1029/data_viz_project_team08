@@ -54,7 +54,7 @@ def get_general_timeline(df_tl, start_date='2022-12-22', end_date='2023-01-18'):
     fig.update_layout(title_text='Hospitalization, Fall and Pain mention',
                       title_x=0.5, title=dict(font=dict(size=20)),
                       autosize=False,
-                      width=600,
+                      width=400,
                       height=600)
 
     fig.data[0].showlegend = False
