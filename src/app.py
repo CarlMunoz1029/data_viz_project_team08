@@ -88,7 +88,7 @@ PATIENT_LIST_STYLE={
 PATIENT_LIST_STYLE_FIRST={
     'width': '10vw',
     'height': "2.5vw",
-    "marginTop":40,
+    "marginTop": 40,
     "fontSize": 13,
     "font-weight": 'bold',
     "textAlign": "center"
@@ -196,6 +196,8 @@ def render_page_content(pathname):
     ),
 ]
 )
+
+#55vw
     
     theme = html.Div(children=[dbc.Row([dbc.Col([html.Span("All incidents"), html.Br(),html.Br(),html.Span("Past 24h")]),
                                         dbc.Col(filter_button)]), html.Br(),
@@ -209,7 +211,7 @@ def render_page_content(pathname):
         showAxisDragHandles=False,
         doubleClick=False,
         displayModeBar=False
-        ), style={'width': '55vw', 'height': '75vh'}))),
+        ), style={'height': '75vh'}))), 
             dbc.Col(html.Div(
                 className='feed-div2',
                 style={
