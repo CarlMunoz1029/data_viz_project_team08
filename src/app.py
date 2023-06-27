@@ -38,7 +38,7 @@ from pandas.io.json import json_normalize
 font ="Times New Roman"
 
 
-# this part is for the general timeline
+## this part is for the general timeline
 df_tl = pd.read_csv('assets/timeline_dataset.csv', index_col=0)
 df_tl = preprocess_general_timeline(df_tl)
 fig_timeline = get_general_timeline(df_tl)
@@ -77,7 +77,7 @@ NOTEFEED_STYLE ={
 }
 
 PATIENT_LIST_STYLE={
-    'width': '175px',
+    'width': '185px',
     'height': '46px',
     "marginTop": 2.5,
     "fontSize": 15,
@@ -86,7 +86,7 @@ PATIENT_LIST_STYLE={
 
 
 PATIENT_LIST_STYLE_FIRST={
-    'width': '175px',
+    'width': '185px',
     'height': '46px',
     "marginTop":40,
     "fontSize": 15,
@@ -203,13 +203,13 @@ def render_page_content(pathname):
                 html.Span(recent_events["DAY"][i].strftime('%Y-%m-%d') +" ; "+ recent_events["INCIDENT_TIME"][i].strftime('%H:%M'))])], 
                                 style={"maxHeight": "115px","background-color":recent_events["COLOR"][i], 'color':'white'}) for i in recent_events.index],
         style={"maxHeight": "1015px", "overflow-y":"scroll","background-color": "#f8f9fa",'height' : '60vh','border': '1px solid black'})])        
-    layout = dbc.Row([dbc.Col(list_patients, align="top"), dbc.Col(html.Div(dcc.Graph(className='graph', figure=fig_timeline, config=dict(
+    layout = dbc.Row([dbc.Col(list_patients, align="top", width = "auto"), dbc.Col(html.Div(dcc.Graph(className='graph', figure=fig_timeline, config=dict(
         scrollZoom=False,
         showTips=False,
         showAxisDragHandles=False,
         doubleClick=False,
         displayModeBar=False
-        ), style={'width': '55vw', 'height':'75vh'}))),
+        ), style={'width': '55vw', 'height':'75vh'})),width=True),
             dbc.Col(html.Div(
                 className='feed-div2',
                 style={
@@ -229,7 +229,7 @@ def render_page_content(pathname):
                                 html.Div(id='mode2', style={
                                     'fontSize': '16px'}),
                                 html.Div(id='theme2', children=[theme], style={
-                                    'fontSize': '16px'})])]))], className="g-0")
+                                    'fontSize': '16px'})])]), width="auto")], className="g-0")
 
     if pathname == "/page-1":
 
