@@ -51,7 +51,7 @@ def get_general_timeline(df_tl, start_date='2022-12-22', end_date='2023-01-18'):
 
     fig.add_trace(fig3.data[0])
 
-    fig.update_layout(title_text='Hospitalization, Fall and Pain mention',
+    fig.update_layout(title_text='Hospitalization, Fall and Pain mention - test',
                       title_x=0.5, title=dict(font=dict(size=20)),
                       autosize=False,
                       width=400,

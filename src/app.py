@@ -221,7 +221,7 @@ def render_page_content(pathname):
                         #'visibility': 'hidden',
                         'border': '1px solid black',
                         'padding': '10px',
-                        'min-width' : '15vw',
+                        'min-width' : '12vw',
                         'min-height' : '75vh'},
                             children=[
                                 html.Div(id='marker-title2', style={
