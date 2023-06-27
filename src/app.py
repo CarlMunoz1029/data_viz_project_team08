@@ -77,8 +77,8 @@ NOTEFEED_STYLE ={
 }
 
 PATIENT_LIST_STYLE={
-    'width': '8.2rem',
-    'height': "2.2rem",
+    'width': '8.5rem',
+    'height': "2.5rem",
     "marginTop": 2.5,
     "fontSize": 13,
     "font-weight": 'bold',
@@ -86,8 +86,8 @@ PATIENT_LIST_STYLE={
 
 
 PATIENT_LIST_STYLE_FIRST={
-    'width': '8.2rem',
-    'height': "2.2rem",
+    'width': '8.5rem',
+    'height': "2.5rem",
     "marginTop":40,
     "fontSize": 13,
     "font-weight": 'bold',
