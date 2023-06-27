@@ -78,7 +78,7 @@ NOTEFEED_STYLE ={
 
 PATIENT_LIST_STYLE={
     'width': '10vw',
-    'height': "2.5vw",
+    'height': "2.1vw",
     "marginTop": 2.5,
     "fontSize": 13,
     "font-weight": 'bold',
@@ -87,7 +87,7 @@ PATIENT_LIST_STYLE={
 
 PATIENT_LIST_STYLE_FIRST={
     'width': '10vw',
-    'height': "2.5vw",
+    'height': "2.1vw",
     "marginTop": 40,
     "fontSize": 13,
     "font-weight": 'bold',
@@ -212,7 +212,7 @@ def render_page_content(pathname):
         doubleClick=False,
         displayModeBar=False
         ), style={'height': '75vh',
-                  'width':'45vw'}))), 
+                  'width':'46vw'}))), 
             dbc.Col(html.Div(
                 className='feed-div2',
                 style={
