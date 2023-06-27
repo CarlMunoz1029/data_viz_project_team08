@@ -77,8 +77,8 @@ NOTEFEED_STYLE ={
 }
 
 PATIENT_LIST_STYLE={
-    'width': '185px',
-    'height': '46px',
+    'width': '11rem',
+    'height': "2.9rem",
     "marginTop": 2.5,
     "fontSize": 15,
     "font-weight": 'bold',
@@ -86,8 +86,8 @@ PATIENT_LIST_STYLE={
 
 
 PATIENT_LIST_STYLE_FIRST={
-    'width': '185px',
-    'height': '46px',
+    'width': '11rem',
+    'height': "2.9rem",
     "marginTop":40,
     "fontSize": 15,
     "font-weight": 'bold',
@@ -203,13 +203,13 @@ def render_page_content(pathname):
                 html.Span(recent_events["DAY"][i].strftime('%Y-%m-%d') +" ; "+ recent_events["INCIDENT_TIME"][i].strftime('%H:%M'))])], 
                                 style={"maxHeight": "115px","background-color":recent_events["COLOR"][i], 'color':'white'}) for i in recent_events.index],
         style={"maxHeight": "1015px", "overflow-y":"scroll","background-color": "#f8f9fa",'height' : '60vh','border': '1px solid black'})])        
-    layout = dbc.Row([dbc.Col(list_patients, align="top", width = "auto"), dbc.Col(html.Div(dcc.Graph(className='graph', figure=fig_timeline, config=dict(
+    layout = dbc.Row([dbc.Col(list_patients, align="top"), dbc.Col(html.Div(dcc.Graph(className='graph', figure=fig_timeline, config=dict(
         scrollZoom=False,
         showTips=False,
         showAxisDragHandles=False,
         doubleClick=False,
         displayModeBar=False
-        ), style={'width': '55vw', 'height':'75vh'})),width=True),
+        ), style={'width': '55vw', 'height':'75vh'}))),
             dbc.Col(html.Div(
                 className='feed-div2',
                 style={
@@ -229,7 +229,7 @@ def render_page_content(pathname):
                                 html.Div(id='mode2', style={
                                     'fontSize': '16px'}),
                                 html.Div(id='theme2', children=[theme], style={
-                                    'fontSize': '16px'})])]), width="auto")], className="g-0")
+                                    'fontSize': '16px'})])]))], className="g-0")
 
     if pathname == "/page-1":
 
