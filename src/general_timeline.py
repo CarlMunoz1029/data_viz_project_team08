@@ -82,7 +82,7 @@ def get_general_timeline(df_tl, start_date='2022-12-22', end_date='2023-01-18'):
                                       font_family="roboto"),
                       width=700)
     
-    fig.update_layout(margin=dict(l=10,r=20,b=0,t=40),
+    fig.update_layout(margin=dict(l=0,r=20,b=0,t=40),
                       legend=dict(
     orientation="h",
     entrywidth=30,
