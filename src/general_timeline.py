@@ -51,12 +51,6 @@ def get_general_timeline(df_tl, start_date='2022-12-22', end_date='2023-01-18'):
 
     fig.add_trace(fig3.data[0])
 
-    fig.update_layout(title_text='Hospitalization, Fall and Pain mention - test3',
-                      title_x=0.5, title=dict(font=dict(size=20)),
-                      autosize=False,
-                      width=400,
-                      height=600)
-
     fig.data[0].showlegend = False
     fig.data[1].showlegend = True
     fig.data[2].showlegend = True
@@ -66,6 +60,7 @@ def get_general_timeline(df_tl, start_date='2022-12-22', end_date='2023-01-18'):
     fig.data[2].name = 'Fall'
     fig.data[3].name = 'Hospitalization'
 
+    # updates axis
     fig.update_xaxes(tickangle=0,
                      tickvals=x_ticks_pos,
                      ticktext=x_tick_text_form,
@@ -74,7 +69,14 @@ def get_general_timeline(df_tl, start_date='2022-12-22', end_date='2023-01-18'):
 
     #fig.update_yaxes(title = " ", visible=False, showticklabels=False)
 
+    # workaround because setting visible=False removed to first tick label of the x axis
     fig.update_yaxes(title=" ", titlefont=dict(size=5), showticklabels=False)
+
+    fig.update_layout(title_text='Hospitalization, Fall and Pain mention - test4',
+                    title_x=0.5, title=dict(font=dict(size=20)),
+                    autosize=False,
+                    width=700,
+                    height=600)
 
     fig.update_layout(plot_bgcolor='whitesmoke',
                       legend=dict(title="Event type:",
@@ -82,8 +84,7 @@ def get_general_timeline(df_tl, start_date='2022-12-22', end_date='2023-01-18'):
                                   font_size=15,),
                       hoverlabel=dict(bgcolor="white",
                                       font_size=16,
-                                      font_family="roboto"),
-                      width=700)
+                                      font_family="roboto"))
 
     fig.update_layout(margin=dict(l=0, r=10, b=0, t=40),
                       legend=dict(orientation="h",
@@ -93,7 +94,9 @@ def get_general_timeline(df_tl, start_date='2022-12-22', end_date='2023-01-18'):
                                   y=-0.1,
                                   xanchor="right",
                                   x=1))
+    
 
+    # set hover labels
     fig.update_traces(hovertemplate="<b>%{y}</b><br><br>" +
                                      "<b>%{x|%d %b %Y}, %{customdata[0]}</b><br>" +
                                      "%{customdata[2]} Pain mention <br>" +
