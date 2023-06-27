@@ -212,7 +212,7 @@ def render_page_content(pathname):
         doubleClick=False,
         displayModeBar=False
         ), style={'height': '75vh',
-                  'width':'55vw'}))), 
+                  'width':'45vw'}))), 
             dbc.Col(html.Div(
                 className='feed-div2',
                 style={
