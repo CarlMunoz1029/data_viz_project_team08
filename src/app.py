@@ -26,10 +26,6 @@ from adls_graph import get_patient_graph
 
 import pandas as pd
 
-
-    
-    
-
 import dash
 import dash_bootstrap_components as dbc
 from dash import Input, Output, dcc, html, ctx, ALL
@@ -42,7 +38,7 @@ from pandas.io.json import json_normalize
 font ="Times New Roman"
 
 
-##this part is for the general timeline
+# this part is for the general timeline
 df_tl = pd.read_csv('assets/timeline_dataset.csv', index_col=0)
 df_tl = preprocess_general_timeline(df_tl)
 fig_timeline = get_general_timeline(df_tl)
@@ -52,7 +48,8 @@ curr=recent_events
 app = dash.Dash(external_stylesheets=[dbc.themes.JOURNAL])
 server = app.server
 app.title = "project session INF8808"
-#notesfeed fd
+
+# notesfeed fd
 df = pd.read_csv('assets/notes.csv')
 df = df.sort_values(by='DAY', ascending=False)
 
@@ -80,6 +77,7 @@ NOTEFEED_STYLE ={
 }
 
 PATIENT_LIST_STYLE={
+    'width': '185px',
     'height': '46px',
     "marginTop": 2.5,
     "fontSize": 15,
@@ -88,6 +86,7 @@ PATIENT_LIST_STYLE={
 
 
 PATIENT_LIST_STYLE_FIRST={
+    'width': '185px',
     'height': '46px',
     "marginTop":40,
     "fontSize": 15,
@@ -137,39 +136,19 @@ notesFeed = html.Div(
 
 patient_names = list(df_tl['PATIENT_ID'].unique())
 
-
-# list_patients = html.Div(
-#     [
-#         dbc.ListGroup(dbc.Stack(
-#             [
-#                 dbc.ListGroupItem(patient_names[-1], id="button-item-p1", n_clicks=0, action=True, style=PATIENT_LIST_STYLE_FIRST, className="border "),
-#                 dbc.ListGroupItem(patient_names[-2], id="button-item-p2", n_clicks=0, action=True, style=PATIENT_LIST_STYLE, className="border "),
-#                 dbc.ListGroupItem(patient_names[-3], id="button-item-p3", n_clicks=0, action=True, style=PATIENT_LIST_STYLE, className="border "),
-#                 dbc.ListGroupItem(patient_names[-4], id="button-item-p4", n_clicks=0, action=True, style=PATIENT_LIST_STYLE, className="border "),
-#                 dbc.ListGroupItem(patient_names[-5], id="button-item-p5", n_clicks=0, action=True, style=PATIENT_LIST_STYLE, className="border "),
-#                 dbc.ListGroupItem(patient_names[-6], id="button-item-p6", n_clicks=0, action=True, style=PATIENT_LIST_STYLE, className="border "),
-#                 dbc.ListGroupItem(patient_names[-7], id="button-item-p7", n_clicks=0, action=True, style=PATIENT_LIST_STYLE, className="border "),
-#                 dbc.ListGroupItem(patient_names[-8], id="button-item-p8", n_clicks=0, action=True, style=PATIENT_LIST_STYLE, className="border "),
-#                 dbc.ListGroupItem(patient_names[-9], id="button-item-p9", n_clicks=0, action=True, style=PATIENT_LIST_STYLE, className="border "),
-#                 dbc.ListGroupItem(patient_names[-10], id="button-item-p10", n_clicks=0, action=True,style =PATIENT_LIST_STYLE, className="border ")
-#             ], gap=3)
-#         )
-#     ]
-# )
-
 list_patients = html.Div(
     [
         dbc.ListGroup(dbc.Stack(
             [
-                dbc.ListGroupItem(patient_names[-1], href="/page-3", n_clicks=0, action=True, style=PATIENT_LIST_STYLE_FIRST, className="border "),
-                dbc.ListGroupItem(patient_names[-2], href="/page-4", n_clicks=0, action=True, style=PATIENT_LIST_STYLE, className="border "),
-                dbc.ListGroupItem(patient_names[-3], href="/page-5", n_clicks=0, action=True, style=PATIENT_LIST_STYLE, className="border "),
-                dbc.ListGroupItem(patient_names[-4], href="/page-6", n_clicks=0, action=True, style=PATIENT_LIST_STYLE, className="border "),
-                dbc.ListGroupItem(patient_names[-5], href="/page-7", n_clicks=0, action=True, style=PATIENT_LIST_STYLE, className="border "),
-                dbc.ListGroupItem(patient_names[-6], href="/page-8", n_clicks=0, action=True, style=PATIENT_LIST_STYLE, className="border "),
-                dbc.ListGroupItem(patient_names[-7], href="/page-9", n_clicks=0, action=True, style=PATIENT_LIST_STYLE, className="border "),
-                dbc.ListGroupItem(patient_names[-8], href="/page-10", n_clicks=0, action=True, style=PATIENT_LIST_STYLE, className="border "),
-                dbc.ListGroupItem(patient_names[-9], href="/page-11", n_clicks=0, action=True, style=PATIENT_LIST_STYLE, className="border "),
+                dbc.ListGroupItem(patient_names[-1], href="/page-3", action=True, style=PATIENT_LIST_STYLE_FIRST, className="border "),
+                dbc.ListGroupItem(patient_names[-2], href="/page-4", action=True, style=PATIENT_LIST_STYLE, className="border "),
+                dbc.ListGroupItem(patient_names[-3], href="/page-5", action=True, style=PATIENT_LIST_STYLE, className="border "),
+                dbc.ListGroupItem(patient_names[-4], href="/page-6", action=True, style=PATIENT_LIST_STYLE, className="border "),
+                dbc.ListGroupItem(patient_names[-5], href="/page-7", action=True, style=PATIENT_LIST_STYLE, className="border "),
+                dbc.ListGroupItem(patient_names[-6], href="/page-8", action=True, style=PATIENT_LIST_STYLE, className="border "),
+                dbc.ListGroupItem(patient_names[-7], href="/page-9", action=True, style=PATIENT_LIST_STYLE, className="border "),
+                dbc.ListGroupItem(patient_names[-8], href="/page-10", action=True, style=PATIENT_LIST_STYLE, className="border "),
+                dbc.ListGroupItem(patient_names[-9], href="/page-11", action=True, style=PATIENT_LIST_STYLE, className="border "),
                 dbc.ListGroupItem(patient_names[-10], href="/page-12", action=True, style =PATIENT_LIST_STYLE, className="border ")
             ], gap=2)
         )
@@ -217,6 +196,7 @@ def render_page_content(pathname):
     ),
 ]
 )
+    
     theme = html.Div(children=[dbc.Row([dbc.Col([html.Span("All incidents"), html.Br(),html.Br(),html.Span("Past 24h")]),
                                         dbc.Col(filter_button)]), html.Br(),
     html.Div(id='card_main', children=[dbc.Card([dbc.CardBody([html.H5(recent_events["INCIDENT"][i].title(), className="card-title"),html.Span("Patient : "+recent_events["PATIENT_ID"][i]), html.Br(),
@@ -284,7 +264,7 @@ def render_page_content(pathname):
             )
             note_items.append(note_item)
 
-        return html.Div([html.Div(dcc.Graph(className='graph', figure=get_patient_graph(selected_patient))),html.Div(
+        return html.Div([notesFeed, html.Div(dcc.Graph(className='graph', figure=get_patient_graph(selected_patient))),html.Div(
                 note_items, style={
                 'height':'400px',
             'overflow-y':'scroll',

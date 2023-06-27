@@ -4,8 +4,6 @@ import datetime
 import plotly.graph_objects as go
 import plotly.express as px
 import numpy as np
-from preprocess import preprocess_general_timeline
-
 
 def get_general_timeline(df_tl, start_date='2022-12-22', end_date='2023-01-18'):
 
@@ -19,8 +17,6 @@ def get_general_timeline(df_tl, start_date='2022-12-22', end_date='2023-01-18'):
     
     idx_fom = 28 - int(end_date.strftime("%d"))
     x_tick_text_form = [x_tick_text[i].strftime("%d </br></br> %b %Y") if i in [0,idx_fom] else x_tick_text[i].strftime("%d") for i in range(len(x_tick_text))]
-
-    
 
     fig = px.timeline(df_tl, x_start="DAY",
                       x_end='DAY',
@@ -75,11 +71,6 @@ def get_general_timeline(df_tl, start_date='2022-12-22', end_date='2023-01-18'):
         dtick="D1",
         tickfont = dict(size = 12))
 
-
-    #fig.update_yaxes(tickfont = dict(size = 10),
-    #                 title = 'Patients')
-
-
     fig.update_yaxes(visible=False, showticklabels=False)
 
     fig.update_layout(plot_bgcolor='whitesmoke',
@@ -91,7 +82,7 @@ def get_general_timeline(df_tl, start_date='2022-12-22', end_date='2023-01-18'):
                                       font_family="roboto"),
                       width=700)
     
-    fig.update_layout(margin=dict(l=0,r=20,b=0,t=40),
+    fig.update_layout(margin=dict(l=10,r=20,b=0,t=40),
                       legend=dict(
     orientation="h",
     entrywidth=30,
@@ -122,6 +113,5 @@ def get_general_timeline(df_tl, start_date='2022-12-22', end_date='2023-01-18'):
                                      "Source: %{customdata[1]}" +
                                      "<extra></extra>",
                       selector = ({'name':'Hospitalization'}))
-
     
     return fig
