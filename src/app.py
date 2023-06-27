@@ -179,7 +179,7 @@ def render_page_content(pathname):
         options=[
             {"label": "Pain", "value": 1},
             {"label": "Falls", "value": 2},
-            {"label": "Hospitalizations", "value": 3,},
+            {"label": "Hospitalizations", "value": 3},
         ],
         value=[1,2,3],
         id="checklist-input",
@@ -205,7 +205,7 @@ def render_page_content(pathname):
                 html.Span(recent_events["DAY"][i].strftime('%Y-%m-%d') +" ; "+ recent_events["INCIDENT_TIME"][i].strftime('%H:%M'))])], 
                                 style={"maxHeight": "115px","background-color":recent_events["COLOR"][i], 'color':'white'}) for i in recent_events.index],
         style={"maxHeight": "1015px", "overflow-y":"scroll","background-color": "#f8f9fa",'height' : '60vh','border': '1px solid black'})])        
-    layout = dbc.Row([dbc.Col(list_patients, align="top", style = {'width':'75vh'}), dbc.Col(html.Div(dcc.Graph(className='graph', figure=fig_timeline, config=dict(
+    layout = dbc.Row([dbc.Col(list_patients, align="top"), dbc.Col(html.Div(dcc.Graph(className='graph', figure=fig_timeline, config=dict(
         scrollZoom=False,
         showTips=False,
         showAxisDragHandles=False,
@@ -219,13 +219,13 @@ def render_page_content(pathname):
                     'justifyContent': 'center',
                     'alignItems': 'center',
                     'display': 'inline-block',
-                    'width': '16vw'},
+                    'width': '16.5vw'},
                 children=[
                     html.Div(id='feed2', style={
                         #'visibility': 'hidden',
                         'border': '1px solid black',
                         'padding': '10px',
-                        'min-width' : '16vw',
+                        'min-width' : '16.5vw',
                         'min-height' : '75vh'},
                             children=[
                                 html.Div(id='marker-title2', style={
