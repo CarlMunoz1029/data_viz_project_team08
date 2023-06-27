@@ -3,7 +3,7 @@
 '''
 
 
-def get_bubble_hover_template():
+def get_gen_timeline_hover_template():
     '''
         Sets the template for the hover tooltips.
         
@@ -16,7 +16,6 @@ def get_bubble_hover_template():
         returns:
             The content of the tooltip
     '''
-    spacing="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
     hovertemplate = spacing + "<span style='font-weight:bold'><b> Country</b></span><span style='font-weight:normal'> : %{customdata[0]} <br /></span>" +\
                     spacing + "<span style='font-weight:bold'><b> Population</b></span><span style='font-weight:normal'> : %{customdata[1]} <br /></span>" +\
                     spacing + "<span style='font-weight:bold'><b>GDP</b></span><span style='font-weight:normal'> : %{x} $ (USD)<br /></span>" +\
