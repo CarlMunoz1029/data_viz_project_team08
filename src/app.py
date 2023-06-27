@@ -78,7 +78,7 @@ NOTEFEED_STYLE ={
 
 PATIENT_LIST_STYLE={
     'width': '10vw',
-    'height': "2.3vw",
+    'height': "2.5vw",
     "marginTop": 2.5,
     "fontSize": 13,
     "font-weight": 'bold',
@@ -87,7 +87,7 @@ PATIENT_LIST_STYLE={
 
 PATIENT_LIST_STYLE_FIRST={
     'width': '10vw',
-    'height': "2.3vw",
+    'height': "2.5vw",
     "marginTop":40,
     "fontSize": 13,
     "font-weight": 'bold',
@@ -209,20 +209,20 @@ def render_page_content(pathname):
         showAxisDragHandles=False,
         doubleClick=False,
         displayModeBar=False
-        ), style={'width': '55vw', 'height':'75vh'}))),
+        ), style={'width': '55vw', 'height': '75vh'}))),
             dbc.Col(html.Div(
                 className='feed-div2',
                 style={
                     'justifyContent': 'center',
                     'alignItems': 'center',
                     'display': 'inline-block',
-                    'width': '12vw'},
+                    'width': '12.5vw'},
                 children=[
                     html.Div(id='feed2', style={
                         #'visibility': 'hidden',
                         'border': '1px solid black',
                         'padding': '10px',
-                        'min-width' : '12vw',
+                        'min-width' : '12.5vw',
                         'min-height' : '75vh'},
                             children=[
                                 html.Div(id='marker-title2', style={
