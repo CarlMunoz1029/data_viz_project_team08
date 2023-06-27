@@ -205,14 +205,14 @@ def render_page_content(pathname):
                 html.Span(recent_events["DAY"][i].strftime('%Y-%m-%d') +" ; "+ recent_events["INCIDENT_TIME"][i].strftime('%H:%M'))])], 
                                 style={"maxHeight": "115px","background-color":recent_events["COLOR"][i], 'color':'white'}) for i in recent_events.index],
         style={"maxHeight": "1015px", "overflow-y":"scroll","background-color": "#f8f9fa",'height' : '60vh','border': '1px solid black'})])        
-    layout = dbc.Row([dbc.Col(list_patients, align="top"), dbc.Col(html.Div(dcc.Graph(className='graph', figure=fig_timeline, config=dict(
+    layout = dbc.Row([dbc.Col(list_patients, align="top", style = {'width':'75vh'}), dbc.Col(html.Div(dcc.Graph(className='graph', figure=fig_timeline, config=dict(
         scrollZoom=False,
         showTips=False,
         showAxisDragHandles=False,
         doubleClick=False,
         displayModeBar=False
         ), style={'height': '75vh',
-                  'width':'45vw'}))), 
+                  'width':'47vw'}))), 
             dbc.Col(html.Div(
                 className='feed-div2',
                 style={
@@ -233,7 +233,7 @@ def render_page_content(pathname):
                                 html.Div(id='mode2', style={
                                     'fontSize': '18px'}),
                                 html.Div(id='theme2', children=[theme], style={
-                                    'fontSize': '14px'})])]))], className="g-0", justify="evenly")
+                                    'fontSize': '14px'})])]))], justify="evenly")
 
     if pathname == "/page-1":
 
