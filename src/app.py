@@ -80,7 +80,7 @@ PATIENT_LIST_STYLE={
     'width': '11rem',
     'height': "2.9rem",
     "marginTop": 2.5,
-    "fontSize": 15,
+    "fontSize": 13,
     "font-weight": 'bold',
     "textAlign": "center"}
 
@@ -89,7 +89,7 @@ PATIENT_LIST_STYLE_FIRST={
     'width': '11rem',
     'height': "2.9rem",
     "marginTop":40,
-    "fontSize": 15,
+    "fontSize": 13,
     "font-weight": 'bold',
     "textAlign": "center"
 }
