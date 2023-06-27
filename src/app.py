@@ -216,17 +216,17 @@ def render_page_content(pathname):
                     'justifyContent': 'center',
                     'alignItems': 'center',
                     'display': 'inline-block',
-                    'width': '10vw'},
+                    'width': '12vw'},
                 children=[
                     html.Div(id='feed2', style={
                         #'visibility': 'hidden',
                         'border': '1px solid black',
                         'padding': '10px',
-                        'min-width' : '10vw',
+                        'min-width' : '12vw',
                         'min-height' : '75vh'},
                             children=[
                                 html.Div(id='marker-title2', style={
-                                    'fontSize': '24px'}),
+                                    'fontSize': '20px'}),
                                 html.Div(id='mode2', style={
                                     'fontSize': '16px'}),
                                 html.Div(id='theme2', children=[theme], style={
