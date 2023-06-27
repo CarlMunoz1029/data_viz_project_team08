@@ -218,13 +218,13 @@ def render_page_content(pathname):
                     'justifyContent': 'center',
                     'alignItems': 'center',
                     'display': 'inline-block',
-                    'width': '12.5vw'},
+                    'width': '14vw'},
                 children=[
                     html.Div(id='feed2', style={
                         #'visibility': 'hidden',
                         'border': '1px solid black',
                         'padding': '10px',
-                        'min-width' : '12.5vw',
+                        'min-width' : '14vw',
                         'min-height' : '75vh'},
                             children=[
                                 html.Div(id='marker-title2', style={
