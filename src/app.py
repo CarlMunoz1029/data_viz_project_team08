@@ -212,7 +212,7 @@ def render_page_content(pathname):
         doubleClick=False,
         displayModeBar=False
         ), style={'height': '75vh',
-                  'width':'40vw'}))), 
+                  'width':'45vw'}))), 
             dbc.Col(html.Div(
                 className='feed-div2',
                 style={
@@ -233,7 +233,7 @@ def render_page_content(pathname):
                                 html.Div(id='mode2', style={
                                     'fontSize': '18px'}),
                                 html.Div(id='theme2', children=[theme], style={
-                                    'fontSize': '14px'})])]))], className="g-0")
+                                    'fontSize': '14px'})])]))], className="g-0", justify="evenly")
 
     if pathname == "/page-1":
 
