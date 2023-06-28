@@ -79,7 +79,7 @@ NOTEFEED_STYLE ={
 PATIENT_LIST_STYLE={
     'width': '10vw',
     'height': "2.24vw",
-    "marginTop": '0.5vh',
+    "marginTop": '0.4vh',
     "fontSize": 13,
     "font-weight": 'bold',
     "textAlign": "center"}
@@ -88,7 +88,7 @@ PATIENT_LIST_STYLE={
 PATIENT_LIST_STYLE_FIRST={
     'width': '10vw',
     'height': "2.2vw",
-    "marginTop": '4.7vh',
+    "marginTop": '4.8vh',
     "fontSize": 13,
     "font-weight": 'bold',
     "textAlign": "center"
