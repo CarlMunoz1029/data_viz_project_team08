@@ -1,4 +1,3 @@
-# Testing testing
 
 import pandas as pd
 from datetime import timedelta
@@ -112,7 +111,6 @@ def combine_dfs(df1, df2):
 
 
 # Gets the most recent events. 
-#TODO: this is a little more complicated than expected
 def get_recent_events(df_tl):
     oldest=max(df_tl.DAY)
     youngest=oldest-datetime.timedelta(days=1)

@@ -43,8 +43,12 @@ df_tl = pd.read_csv('assets/timeline_dataset.csv', index_col=0)
 df_tl = preprocess_general_timeline(df_tl)
 fig_timeline = get_general_timeline(df_tl)
 
+## Recent events and the variable containing the current filtered values
 recent_events = preprocess.get_recent_events(df_tl)
+global curr
 curr=recent_events
+
+
 app = dash.Dash(external_stylesheets=[dbc.themes.JOURNAL])
 server = app.server
 app.title = "project session INF8808"
@@ -161,13 +165,10 @@ content = html.Div(id="page-content", style=CONTENT_STYLE)
 app.layout = html.Div([dcc.Location(id="url"), sidebar, content])
 
 
-@app.callback(Output("page-content", "children"), [Input("url", "pathname")])
-def render_page_content(pathname):
-
-    
-    filter_button = html.Div(
+### overview html components that don't need to be remade each callback call
+filter_button = html.Div(
 [
-        dbc.Button(
+    dbc.Button(
         "Filter incidents",
         id="popover-target",
         className="me-1",
@@ -197,46 +198,62 @@ def render_page_content(pathname):
 ]
 )
 
-#55vw
+
+theme = html.Div(children=[dbc.Row([dbc.Col([html.Span("All incidents"), html.Br(),html.Br(),html.Span("Past 24h")]),
+                                    dbc.Col(filter_button)]), html.Br(),
+        html.Div(id='card_main', 
+                children=[dbc.Card(
+                    [dbc.CardBody([
+                        html.H5(recent_events["INCIDENT"][i].title(), className="card-title"),
+                        html.Span("Patient : "+recent_events["PATIENT_ID"][i]), html.Br(),
+                        html.Span(recent_events["DAY"][i].strftime('%Y-%m-%d') +" ; "+ recent_events["INCIDENT_TIME"][i].strftime('%H:%M'))])], 
+                        style={"maxHeight": "115px","background-color":recent_events["COLOR"][i], 'color':'white'}) 
+                        for i in recent_events.index],
+            style={"maxHeight": "1015px", 
+                "overflow-y":"scroll",
+                "background-color": "#f8f9fa",
+                'height' : '60vh',
+                'border': '1px solid black'})])        
+
+layout = dbc.Row([dbc.Col(list_patients, style = {'height':'70vh', 'width':'10vw'}, align="top"), 
+                    dbc.Col(html.Div(dcc.Graph(className='graph', figure=fig_timeline, config=dict(
+                    scrollZoom=False,
+                    showTips=False,
+                    showAxisDragHandles=False,
+                    doubleClick=False,
+                    displayModeBar=False
+                    ), style={'height': '75vh',
+                            'width':'46vw'}))), 
+                    dbc.Col(html.Div(
+                        className='feed-div2',
+                        style={
+                            'justifyContent': 'center',
+                            'alignItems': 'center',
+                            'display': 'inline-block',
+                            'width': '15vw'},
+                        children=[
+                            html.Div(id='feed2', 
+                                        style={
+                                    #'visibility': 'hidden',
+                                    'border': '1px solid black',
+                                    'padding': '10px',
+                                    'min-width' : '15vw',
+                                    'min-height' : '75vh'},
+                                children=[
+                                    html.Div(id='marker-title2', style={
+                                        'fontSize': '18px'}),
+                                    html.Div(id='mode2', style={
+                                        'fontSize': '18px'}),
+                                    html.Div(id='theme2', children=[theme], style={
+                                        'fontSize': '14px'})])]))], justify="evenly")
     
-    theme = html.Div(children=[dbc.Row([dbc.Col([html.Span("All incidents"), html.Br(),html.Br(),html.Span("Past 24h")]),
-                                        dbc.Col(filter_button)]), html.Br(),
-    html.Div(id='card_main', children=[dbc.Card([dbc.CardBody([html.H5(recent_events["INCIDENT"][i].title(), className="card-title"),html.Span("Patient : "+recent_events["PATIENT_ID"][i]), html.Br(),
-                html.Span(recent_events["DAY"][i].strftime('%Y-%m-%d') +" ; "+ recent_events["INCIDENT_TIME"][i].strftime('%H:%M'))])], 
-                                style={"maxHeight": "115px","background-color":recent_events["COLOR"][i], 'color':'white'}) for i in recent_events.index],
-        style={"maxHeight": "1015px", "overflow-y":"scroll","background-color": "#f8f9fa",'height' : '60vh','border': '1px solid black'})])        
-    layout = dbc.Row([dbc.Col(list_patients, style = {'height':'70vh', 'width':'10vw'}, align="top"), dbc.Col(html.Div(dcc.Graph(className='graph', figure=fig_timeline, config=dict(
-        scrollZoom=False,
-        showTips=False,
-        showAxisDragHandles=False,
-        doubleClick=False,
-        displayModeBar=False
-        ), style={'height': '75vh',
-                  'width':'46vw'}))), 
-            dbc.Col(html.Div(
-                className='feed-div2',
-                style={
-                    'justifyContent': 'center',
-                    'alignItems': 'center',
-                    'display': 'inline-block',
-                    'width': '15vw'},
-                children=[
-                    html.Div(id='feed2', style={
-                        #'visibility': 'hidden',
-                        'border': '1px solid black',
-                        'padding': '10px',
-                        'min-width' : '15vw',
-                        'min-height' : '75vh'},
-                            children=[
-                                html.Div(id='marker-title2', style={
-                                    'fontSize': '18px'}),
-                                html.Div(id='mode2', style={
-                                    'fontSize': '18px'}),
-                                html.Div(id='theme2', children=[theme], style={
-                                    'fontSize': '14px'})])]))], justify="evenly")
+
+
+############ Callbacks of the app ##################
+@app.callback(Output("page-content", "children"), [Input("url", "pathname")])
+def render_page_content(pathname):
 
     if pathname == "/page-1":
-
         return layout
         #return html.P("This is the content of page 1. Yay!")
     elif pathname == "/page-2":
@@ -247,33 +264,11 @@ def render_page_content(pathname):
 
         selected_patient = patient_names[-(int(pathname[-1])-2)]
         notesFeed.children[1].children[1].value = selected_patient
-        #notesFeed.children[3].value= selected_patient
-        #notesFeed.children[-1].children= display_note_feed(selected_patient)
-        #print(notesFeed)
         return notesFeed
-       #return html.Div([notesFeed, html.Div(dcc.Graph(className='graph', figure=get_patient_graph(selected_patient))),html.Div(
-       #        note_items, style={
-       #        'height':'400px',
-       #    'overflow-y':'scroll',
-       #    #'position':'absolute',
-       #    #'right':'2px',
-       #    'top-padding':'10px',
-       #    'left-margin':'10px',
-       #    'border': '2px solid black'
-       #    })])
-    
 
-    # If the user tries to reach a different page, return a 404 message
+
+    # If the user tries to reach a different page, return to overview
     return layout
-
-    #     html.Div(
-    #     [
-    #         html.H1("404: Not found", className="text-danger"),
-    #         html.Hr(),
-    #         html.P(f"The pathname {pathname} was not recognised..."),
-    #     ],
-    #     className="p-3 bg-light rounded-3",
-    # )
 
 
 
@@ -310,20 +305,23 @@ def display_note_feed(selected_patient):
                 html.H6(f"Date:Sent on the {note_date}")])
                 
             ],
-            style={'border': '1px solid black', 'padding': '10px',"margin-top":'40px', 'margin-bottom': '10px','overflow-y':'auto' }
+            style={'border': '1px solid black', 'padding': '10px',
+                   "margin-top":'40px', 'margin-bottom': '10px',
+                   'overflow-y':'auto' }
         )
         note_items.append(note_item)
 
-    return html.Div([html.Div(dcc.Graph(className='graph', figure=get_patient_graph(selected_patient))),html.Div(
-            note_items, style={
-            'height':'400px',
-        'overflow-y':'scroll',
-        #'position':'absolute',
-        #'right':'2px',
-        'top-padding':'10px',
-        'left-margin':'10px',
-        'border': '2px solid black'
-        })])
+    return html.Div([html.Div(dcc.Graph(className='graph', 
+                                        figure=get_patient_graph(selected_patient))),
+                     html.Div(note_items, style={
+                                            'height':'400px',
+                                            'overflow-y':'scroll',
+                                            #'position':'absolute',
+                                            #'right':'2px',
+                                            'top-padding':'10px',
+                                            'left-margin':'10px',
+                                            'border': '2px solid black'
+                                            })])
 
 @app.callback(
     Output('popover-confirm', 'n_clicks'),

@@ -62,7 +62,6 @@ def get_patient_graph(patient_name):
                     showgrid=True)
 
 
-
     fig.update_layout(
         updatemenus=[
             dict(
