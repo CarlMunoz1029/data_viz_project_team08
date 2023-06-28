@@ -78,8 +78,8 @@ NOTEFEED_STYLE ={
 
 PATIENT_LIST_STYLE={
     'width': '10vw',
-    'height': "2.2vw",
-    "marginTop": 2.5,
+    'height': "2.24vw",
+    "marginTop": '0.71vh',
     "fontSize": 13,
     "font-weight": 'bold',
     "textAlign": "center"}
@@ -88,7 +88,7 @@ PATIENT_LIST_STYLE={
 PATIENT_LIST_STYLE_FIRST={
     'width': '10vw',
     'height': "2.2vw",
-    "marginTop": 40,
+    "marginTop": '4.7vh',
     "fontSize": 13,
     "font-weight": 'bold',
     "textAlign": "center"
@@ -205,14 +205,14 @@ def render_page_content(pathname):
                 html.Span(recent_events["DAY"][i].strftime('%Y-%m-%d') +" ; "+ recent_events["INCIDENT_TIME"][i].strftime('%H:%M'))])], 
                                 style={"maxHeight": "115px","background-color":recent_events["COLOR"][i], 'color':'white'}) for i in recent_events.index],
         style={"maxHeight": "1015px", "overflow-y":"scroll","background-color": "#f8f9fa",'height' : '60vh','border': '1px solid black'})])        
-    layout = dbc.Row([dbc.Col(list_patients, align="top"), dbc.Col(html.Div(dcc.Graph(className='graph', figure=fig_timeline, config=dict(
+    layout = dbc.Row([dbc.Col(list_patients, style = {'height':'70vh', 'width':'10vw'}, align="top"), dbc.Col(html.Div(dcc.Graph(className='graph', figure=fig_timeline, config=dict(
         scrollZoom=False,
         showTips=False,
         showAxisDragHandles=False,
         doubleClick=False,
         displayModeBar=False
         ), style={'height': '75vh',
-                  'width':'48vw'}))), 
+                  'width':'46vw'}))), 
             dbc.Col(html.Div(
                 className='feed-div2',
                 style={
