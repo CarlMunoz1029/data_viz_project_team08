@@ -128,23 +128,15 @@ def get_recent_events(df_tl):
     pain["INCIDENT"] = "PAIN"
     pain = pain.rename(columns={"PAIN_TIME":"INCIDENT_TIME", "PAIN_SOURCE":"SOURCE"})
     
-    print(pain.columns)
-    #pain = pain.sort_values(["DAY", "PAIN_TIME"], ascending=[False, False])
-
-
     fall = recent_all[recent_all['FALL_COUNT']!=0]
-    #print(fall["FALL_TIME"])
     fall["FALL_TIME"] = pd.to_datetime(fall["FALL_TIME"], format='%H:%M')
-    #print(fall["FALL_TIME"])
     fall = fall[['PATIENT_ID', 'DAY', 'FALL_TIME', 'FALL_SOURCE']]
     fall["COLOR"] = "sandybrown"
     fall["INCIDENT"] = "FALL"
     fall = fall.rename(columns={"FALL_TIME":"INCIDENT_TIME", "FALL_SOURCE":"SOURCE"})
     
     hospitalization = recent_all[recent_all['HOSPITALIZATION_COUNT']!=0]
-    #print(hospitalization["HOSPITALIZATION_TIME"])
     hospitalization["HOSPITALIZATION_TIME"] = pd.to_datetime(hospitalization["HOSPITALIZATION_TIME"], format='%H:%M')
-    #print(hospitalization["HOSPITALIZATION_TIME"])
     hospitalization = hospitalization[['PATIENT_ID', 'DAY', 'HOSPITALIZATION_TIME', 'HOSPITALIZATION_SOURCE']]
     hospitalization["COLOR"] = "darkred"
     hospitalization["INCIDENT"] = "HOSPITALIZATION"
@@ -154,7 +146,6 @@ def get_recent_events(df_tl):
     combined = combined.sort_values(["DAY", "INCIDENT_TIME"], ascending=[False, False])
     
     #TODO: hospitalisations, plus a callback for choosing it plus changing the display.  
-    #print(combined["DAY"])
     return combined
 
 def sort_dy_by_yr_continent(my_df):
