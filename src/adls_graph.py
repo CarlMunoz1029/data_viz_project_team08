@@ -90,10 +90,6 @@ def get_patient_graph(patient_name):
                         font_family="roboto")
     )
 
-    # Add hovertemplate
-    fig.update_traces(hovertemplate="<b>%{x}</b><br><br>" + 
-                      "Count: %{y} <extra></extra>")
-
     # Add scatter traces
 
     event_trace = go.Scatter(
