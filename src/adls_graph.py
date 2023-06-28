@@ -35,17 +35,20 @@ def get_patient_graph(patient_name):
     # Add bar count traces
 
     fig.add_trace(
-        go.Bar(name='COMPLETED ADLS', x=df['DAY'], y=df['TOTAL_COMPLETED_ADLS'], marker_color='rgb(51, 102, 255)'),
+        go.Bar(name='COMPLETED ADLS', x=df['DAY'], y=df['TOTAL_COMPLETED_ADLS'], marker_color='rgb(51, 102, 255)',
+              hovertemplate="<b>%{x}</b><br><br>" + "Completed ADLS: %{y} <extra></extra>"),
         row=1, col=1)
 
     fig.add_trace(
-        go.Bar(name='UNCOMPLETED ADLS', x=df['DAY'], y=df['UNCOMPLETED_ADLS'], marker_color='rgb(179, 198, 255)'), 
+        go.Bar(name='UNCOMPLETED ADLS', x=df['DAY'], y=df['UNCOMPLETED_ADLS'], marker_color='rgb(179, 198, 255)',
+              hovertemplate="<b>%{x}</b><br><br>" + "Uncompleted ADLS: %{y} <extra></extra>"), 
         row=1, col=1)
 
     # Add bar percentage traces
 
     fig.add_trace(
-        go.Bar(name='COMPLETED ADLS', x=df['DAY'], y=df['ADL_COMPLETION_PERCENTAGE'], marker_color='rgb(51, 102, 255)', visible=False),
+        go.Bar(name='COMPLETED ADLS', x=df['DAY'], y=df['ADL_COMPLETION_PERCENTAGE'], marker_color='rgb(51, 102, 255)', visible=False,
+              hovertemplate="<b>%{x}</b><br><br>" + "%{y}% of ADLS Completed <extra></extra>"),
         row=1, col=1)
 
     fig.update_xaxes(dtick='D1',
