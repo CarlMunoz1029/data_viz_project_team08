@@ -267,7 +267,7 @@ def render_page_content(pathname):
                 style={'border': '1px solid black', 'padding': '10px',"margin-top":'40px', 'margin-bottom': '10px','overflow-y':'auto' }
             )
             note_items.append(note_item)
-
+        return display_note_feed(selected_patient)
         return html.Div([notesFeed, html.Div(dcc.Graph(className='graph', figure=get_patient_graph(selected_patient))),html.Div(
                 note_items, style={
                 'height':'400px',
