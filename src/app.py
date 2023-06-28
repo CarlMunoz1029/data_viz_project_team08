@@ -246,38 +246,21 @@ def render_page_content(pathname):
     elif pathname in ["/page-3","/page-4","/page-5","/page-6","/page-7","/page-8","/page-9","/page-10","/page-11","/page-12"]:
 
         selected_patient = patient_names[-(int(pathname[-1])-2)]
-        filtered_df = df[df['PATIENT_ID'] == selected_patient]
-
-        note_items = []
-        for _, row in filtered_df.iterrows():
-            note_date = row['DAY']
-            note_type = row['NOTE_TYPE']
-            note_content = row['NOTE']
-            
-            note_item = html.Div(
-                children=[
-                    html.Div(
-                        html.P(f"Type: {note_type}")
-                    ),
-                    html.Div(children =[
-                    html.P(f"Note: {note_content}"),
-                    html.H6(f"Date:Sent on the {note_date}")])
-                    
-                ],
-                style={'border': '1px solid black', 'padding': '10px',"margin-top":'40px', 'margin-bottom': '10px','overflow-y':'auto' }
-            )
-            note_items.append(note_item)
-        return display_note_feed(selected_patient)
-        return html.Div([notesFeed, html.Div(dcc.Graph(className='graph', figure=get_patient_graph(selected_patient))),html.Div(
-                note_items, style={
-                'height':'400px',
-            'overflow-y':'scroll',
-            #'position':'absolute',
-            #'right':'2px',
-            'top-padding':'10px',
-            'left-margin':'10px',
-            'border': '2px solid black'
-            })])
+        notesFeed.children[1].children[1].value = selected_patient
+        #notesFeed.children[3].value= selected_patient
+        #notesFeed.children[-1].children= display_note_feed(selected_patient)
+        #print(notesFeed)
+        return notesFeed
+       #return html.Div([notesFeed, html.Div(dcc.Graph(className='graph', figure=get_patient_graph(selected_patient))),html.Div(
+       #        note_items, style={
+       #        'height':'400px',
+       #    'overflow-y':'scroll',
+       #    #'position':'absolute',
+       #    #'right':'2px',
+       #    'top-padding':'10px',
+       #    'left-margin':'10px',
+       #    'border': '2px solid black'
+       #    })])
     
 
     # If the user tries to reach a different page, return a 404 message
