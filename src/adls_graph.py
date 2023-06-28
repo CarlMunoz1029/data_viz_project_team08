@@ -81,8 +81,15 @@ def get_patient_graph(patient_name):
         title=dict(text=f'ADLS of {patient_name}',
                 font=dict(size=16), 
                 x = 0.1,
-                xanchor = 'left')
+                xanchor = 'left'),
+        hoverlabel=dict(bgcolor="white",
+                        font_size=16,
+                        font_family="roboto")
     )
+
+    # Add hovertemplate
+    fig.update_traces(hovertemplate="<b>%{x}</b><br><br>" + 
+                      "Count: %{y} <extra></extra>")
 
     # Add scatter traces
 
