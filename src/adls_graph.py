@@ -21,7 +21,13 @@ def get_patient_graph(patient_name):
 
     df_count = df.melt(id_vars=['DAY'], value_vars=['FALL_COUNT', 'HOSPITALIZATION_COUNT'], value_name='Count', var_name='Event')
 
-    df_count = df_count[df_count['Count'] != 0]
+    df_count = df_count.replace({'Event' : { 'FALL_COUNT' : 'Fall', 'HOSPITALIZATION_COUNT' : 'Hospitalization'}})
+
+    #df_count = df_count[df_count['Count'] != 0]
+
+    marker_types = ['square' if event == 'Fall' else 'cross' for event in df_count['Event']]
+
+    marker_colors = ['rgb(236, 161, 101)' if event == 'Fall' else 'rgb(126,1,0,255)' for event in df_count['Event']]
 
     # Create subplots
 
@@ -73,7 +79,7 @@ def get_patient_graph(patient_name):
                 showactive = True,
                 x = 1,
                 xanchor = 'right',
-                y = 1.1,
+                y = 1.2,
                 yanchor = 'top'
             )
         ])
@@ -85,7 +91,7 @@ def get_patient_graph(patient_name):
                 font=dict(size=16), 
                 x = 0.1,
                 xanchor = 'left'),
-        hoverlabel=dict(bgcolor="white",
+        hoverlabel=dict(bgcolor="whitesmoke",
                         font_size=16,
                         font_family="roboto")
     )
@@ -104,15 +110,15 @@ def get_patient_graph(patient_name):
                     sizeref=0.5,
                     sizemode='diameter', 
                     sizemin=4,
-                    symbol=['square', 'cross'],
-                    color=['rgb(236, 161, 101)', 'rgb(126,1,0,255)']
+                    symbol=marker_types,
+                    color=marker_colors
             ),
         hovertemplate='%{text}<extra></extra>'
     )
 
     fig.add_trace(event_trace, row=2, col=1)
 
-    fig.update_yaxes(visible=True, row=2, col=1)
+    fig.update_yaxes(rangemode='tozero', visible=True, row=2, col=1)
 
     fig.update_layout(legend=dict(itemsizing='constant'))
 
