@@ -2,6 +2,8 @@
 
 # Alayacare
 
+Link : https://team08-alayacare.onrender.com/
+
 In this project, we made vizualisations from patient data to allow for coordinators to see the status and risk factors for patient in order to better distibute staff among said patients. 
 
 ## Overview : 
