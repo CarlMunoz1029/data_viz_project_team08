@@ -12,10 +12,16 @@ Allows us to see the portion of ADLS (activities of daily living) for a given pa
 
 
 
-Contibutors :
+## Contibutors :
+
 Carl Munoz
+
 Rose Laflamme
+
 Gautam Joshi
+
 Antoine Duplantie-Grenet
+
 Ange-Alexandre Forestier
+
 Rose Guay-Hottin
