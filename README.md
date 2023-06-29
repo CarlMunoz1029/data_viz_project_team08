@@ -20,7 +20,7 @@ Rose Laflamme
 
 Gautam Joshi
 
-Antoine Duplantie-Grenet
+Antoine Duplantie-Grenier
 
 Ange-Alexandre Forestier
 
