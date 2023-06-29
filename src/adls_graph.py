@@ -11,8 +11,6 @@ def get_patient_graph(patient_name):
 
     df['UNCOMPLETED_ADLS'] = df['TOTAL_ADLS'] - df['TOTAL_COMPLETED_ADLS']
 
-    #patient_name = 'Céline Dion'
-
     df = df.loc[df['PATIENT_ID'] == patient_name]
 
     df_hosp = df[df['HOSPITALIZATION_COUNT'] != 0]
@@ -22,8 +20,6 @@ def get_patient_graph(patient_name):
     df_count = df.melt(id_vars=['DAY'], value_vars=['FALL_COUNT', 'HOSPITALIZATION_COUNT'], value_name='Count', var_name='Event')
 
     df_count = df_count.replace({'Event' : { 'FALL_COUNT' : 'Fall', 'HOSPITALIZATION_COUNT' : 'Hospitalization'}})
-
-    #df_count = df_count[df_count['Count'] != 0]
 
     marker_types = ['square' if event == 'Fall' else 'cross' for event in df_count['Event']]
 

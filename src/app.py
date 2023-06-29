@@ -3,7 +3,7 @@
 
 '''
     File name: app.py
-    Author: Antoine Duplantie
+    Author: Team 8
     Course: INF8808
     Python Version: 3.9.6
 
