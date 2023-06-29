@@ -10,7 +10,7 @@ def get_general_timeline(df_tl, start_date='2022-12-22', end_date='2023-01-18'):
     end_date = pd.to_datetime(end_date)
 
     # create centered tickvals and text
-    x_ticks_pos = pd.date_range(start_date + timedelta(hours=12), end_date + timedelta(days=1, hours=12), freq="24H")
+    x_ticks_pos = pd.date_range(start_date - timedelta(hours=12), end_date + timedelta( hours=12), freq="24H")
     x_tick_text = pd.date_range(start_date, end_date + timedelta(days=1), freq="24H")
 
     idx_fom = 28 - int(end_date.strftime("%d"))
